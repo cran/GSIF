@@ -1,8 +1,8 @@
 Package: GSIF
 Type: Package
 Title: Global Soil Information Facilities
-Version: 0.3-1
-Date: 2013-04-03
+Version: 0.3-2
+Date: 2013-04-24
 Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"), email
         = "tom.hengl@wur.nl"), person("Bas", "Kempen", role = "aut",
         email = "bas.kempen@wur.nl"), person("Gerard", "Heuvelink",
@@ -15,16 +15,16 @@ Description: Global Soil Information Facilities - tools (standards and
 License: GPL
 URL: http://gsif.r-forge.r-project.org/
 LazyLoad: yes
-Depends: R (>= 2.13.0), raster, gstat
-Imports: methods, sp (>= 1.0-8), RSAGA, stringr, RCurl, XML, maptools,
-        rgdal, raster, aqp, dismo, plotKML, gstat, nortest, stats,
-        plyr, boot, rpart, randomForest
-Suggests: soiltexture, spatstat, plyr, splines, mda, psych, fossil,
+Depends: R (>= 2.15.0), raster, gstat
+Imports: methods, sp (>= 1.0-8), RSAGA, stringr, RCurl, XML, rgdal,
+        raster, aqp, dismo, plotKML, gstat, nortest, stats, plyr, boot,
+        rpart, randomForest, spatstat
+Suggests: soiltexture, plyr, splines, mda, psych, fossil, maptools,
         nnet, SDMTools, rJava (>= 0.5-0)
-Packaged: 2013-04-18 14:49:09 UTC; hengl001
+Packaged: 2013-04-24 08:41:54 UTC; hengl001
 Author: Tomislav Hengl [cre, aut], Bas Kempen [aut], Gerard Heuvelink
         [aut], Brendan Malone [ctb], Hannes Reuter [ctb]
 Maintainer: Tomislav Hengl <tom.hengl@wur.nl>
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2013-04-18 19:05:01
+Date/Publication: 2013-04-24 10:52:44
