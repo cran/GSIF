@@ -11,22 +11,22 @@
 \description{Tries to automatically fit a 2D or 3D regression-kriging model for a given set of points (object of type \code{"SpatialPointsDataFrame"} or \code{"geosamples"}) and covariates (object of type \code{"SpatialPixelsDataFrame"}). It first fits a regression model (e.g. Generalized Linear Model, regression tree, random forest model or similar) following the \code{formulaString}, then fits variogram for residuals usign the \code{fit.variogram} method from the \href{http://www.gstat.org}{gstat} package. Creates an output object of class \code{\link{gstatModel-class}}.}
 \usage{ 
 \S4method{fit.gstatModel}{SpatialPointsDataFrame,formula,SpatialPixelsDataFrame}(observations, formulaString, covariates, 
-     method = list("GLM", "rpart", "randomForest", "HB")[[1]], 
+     method = list("GLM", "rpart", "randomForest", "quantregForest")[[1]], 
      dimensions = list("3D", "2D", "2D+T", "3D+T")[[1]],
      family = gaussian, stepwise = TRUE, vgmFun = "Exp", 
      subsample = 5000, \dots)
 \S4method{fit.gstatModel}{geosamples,formula,SpatialPixelsDataFrame}(observations, formulaString, covariates, 
-     method = list("GLM", "rpart", "randomForest", "HB")[[1]], 
+     method = list("GLM", "rpart", "randomForest", "quantregForest")[[1]], 
      dimensions = list("3D", "2D", "2D+T", "3D+T")[[1]],
      family = gaussian, stepwise = TRUE, 
      vgmFun = "Exp", subsample = 5000, \dots)
 \S4method{fit.gstatModel}{geosamples,formula,list}(observations, formulaString, covariates, 
-     method = list("GLM", "rpart", "randomForest", "HB")[[1]], 
+     method = list("GLM", "rpart", "randomForest", "quantregForest")[[1]], 
      dimensions = list("3D", "2D", "2D+T", "3D+T")[[1]],
      family = gaussian, stepwise = TRUE, 
      vgmFun = "Exp", subsample = 5000, \dots)
 \S4method{fit.gstatModel}{geosamples,list,list}(observations, formulaString, covariates, 
-     method = list("GLM", "rpart", "randomForest", "HB")[[1]], 
+     method = list("GLM", "rpart", "randomForest", "quantregForest")[[1]], 
      dimensions = list("3D", "2D", "2D+T", "3D+T")[[1]],
      family = gaussian, stepwise = TRUE, 
      vgmFun = "Exp", subsample = 5000, \dots)
@@ -60,7 +60,7 @@
 }
 }
 \author{ Tomislav Hengl, Gerard B.M. Heuvelink and Bas Kempen }
-\seealso{ \code{\link{gstatModel-class}}, \code{\link{fit.regModel}}, \code{\link{geosamples-class}}, \code{stats::glm}, \code{gstat::fit.variogram}
+\seealso{ \code{\link{gstatModel-class}}, \code{\link{fit.regModel}}, \code{\link{test.gstatModel}}, \code{\link{geosamples-class}}, \code{stats::glm}, \code{gstat::fit.variogram}
 }
 \examples{
 # 2D model:
@@ -70,6 +70,7 @@ library(aqp)
 library(plyr)
 library(rpart)
 library(splines)
+library(gstat)
 
 ## load the Meuse data set:
 demo(meuse, echo=FALSE)
@@ -92,7 +93,7 @@ omm <- fit.gstatModel(meuse, om~dist+ffreq, meuse.grid, family = gaussian(log))
 summary(omm@regModel)
 v = omm@vgmModel; class(v) = c("variogramModel", "data.frame")
 om.sp <- SpatialPointsDataFrame(omm@sp, data = omm@regModel$model)
-\dontrun{# plot a variogram:
+\dontrun{## plot a variogram:
 vve = variogram(om~1, om.sp)
 vvres = variogram(om~dist+ffreq, om.sp)
 plot(x=vvres$dist, y=vvres$gamma, pch=20, xlab='distance',
@@ -102,7 +103,7 @@ vline <- variogramLine(v, maxdist=max(vvres$dist), n=length(vvres$dist))
 lines(x=vline$dist, y=vline$gamma)
 }
 om.rk <- predict(omm, meuse.grid)
-\dontrun{# plot the results in Google Earth:
+\dontrun{## plot the results in Google Earth:
 plotKML(om.rk)
 }
 
@@ -148,8 +149,9 @@ glm.formulaString = as.formula(paste("SNDMHT ~ ",
 SNDMHT.m <- fit.gstatModel(observations=eberg.geo, glm.formulaString, 
   covariates=eberg_grid)
 ## problems with the variogram?
-\dontrun{# remove classes from the PRMGEO6 that are not represented in the model:
-fix.c = levels(eberg_grid$PRMGEO6)[!(levels(eberg_grid$PRMGEO6) \%in\% levels(SNDMHT.m@regModel$model$PRMGEO6))]
+\dontrun{## remove classes from the PRMGEO6 that are not represented in the model:
+sel = !(levels(eberg_grid$PRMGEO6) \%in\% levels(SNDMHT.m@regModel$model$PRMGEO6))
+fix.c = levels(eberg_grid$PRMGEO6)[sel]
 summary(eberg_grid$PRMGEO6)
 for(j in fix.c){
   eberg_grid$PRMGEO6[eberg_grid$PRMGEO6 == j] <- levels(eberg_grid$PRMGEO6)[7]
