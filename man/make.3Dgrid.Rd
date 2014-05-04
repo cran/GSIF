@@ -38,12 +38,13 @@
 }
 \value{The output is list of objects of class \code{"SpatialPixelsDataFrame"} where the number of elements in the list corresponds to the number of standard depths.
 }
-\note{If the input object is of class \code{"SpatialPixelsDataFrame"}, the method by default uses \code{FWTools} (\code{gdalwarp} command) to resample grids, otherwise the \code{raster::projectRaster} command is passed. \href{http://fwtools.maptools.org/}{FWTools} must be installed separately. \cr 
+\note{If the input object is of class \code{"SpatialPixelsDataFrame"}, the method by default uses \code{FWTools} (\code{warp} command) to resample grids, otherwise the \code{raster::projectRaster} command is passed. \href{http://fwtools.maptools.org/}{FWTools} must be installed separately. \cr 
 Note: this operation can be time consuming for large areas (e.g. >> 1e6 pixels).}
 \references{
 \itemize{
   \item Bivand, R.S., Pebesma, E.J., and \enc{Gómez}{Gomez}-Rubio, V., (2008) \href{http://www.asdar-book.org/}{Applied Spatial Data Analysis with R}. Springer, 378 p.
   \item FWTools (\url{http://fwtools.maptools.org})
+  \item gdalUtils package (\url{http://CRAN.R-project.org/package=gdalUtils})
   \item Raster package (\url{http://CRAN.R-project.org/package=raster})
 }                 
 }
@@ -71,7 +72,7 @@ data(eberg_grid25)
 gridded(eberg_grid25) <- ~x+y
 proj4string(eberg_grid25) <- CRS("+init=epsg:31467")
 eberg_grid25@data <- cbind(eberg_grid25@data, 
-    gdalwarp(eberg_grid, pixsize=eberg_grid25@grid@cellsize[1], 
+    warp(eberg_grid, pixsize=eberg_grid25@grid@cellsize[1], 
     GridTopology=eberg_grid25@grid, resampling_method="cubicspline")@data)
 ## this function requires FWTools!
 }
