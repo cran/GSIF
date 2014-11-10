@@ -102,6 +102,7 @@ setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.f
   }
   
   if(method == "randomForest"|method == "quantregForest"){
+    require(randomForest)
     ## fit/filter the regression model:
     message("Fitting a randomForest model...")
     ## NA's not permitted and need to be filtered out:
@@ -155,7 +156,7 @@ setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.f
       } else { 
         ## Use a pure nugget effect if variogram is set to NULL
         if(is.null(rvgm)){
-          rvgm <- fit.vgmModel(residual ~ 1, rmatrix = rmatrix, predictionDomain = predictionDomain, dimensions = dimensions, vgmFun = "Nug", ...)
+          rvgm <- fit.vgmModel(residual ~ 1, rmatrix = rmatrix, predictionDomain = predictionDomain, dimensions = dimensions, vgmFun = "Nug")
         } else {
           xyn = attr(predictionDomain@bbox, "dimnames")[[1]]
           ## create spatial points:
@@ -163,24 +164,17 @@ setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.f
           proj4string(rmatrix) = predictionDomain@proj4string
           observations = as(rmatrix, "SpatialPoints")
           ## othewise copy the variogram submitted by the user:
-          rvgm <- list(vgm=rvgm, observations=observations)
+          rvgm <- list(vgm=rvgm, observations=observations, svgm=NA)
           }
        }
   }
   
   ## TH: refit non-linear trend model using the GLS weights? This can be very time consuming and is not recommended for large data sets
   
-  ## save the output:
   message("Saving an object of class 'gstatModel'...")  
-  rkm <- new("gstatModel", regModel = rgm, vgmModel = as.data.frame(rvgm[[1]]), sp = rvgm[[2]])
+  rkm <- new("gstatModel", regModel = rgm, vgmModel = as.data.frame(rvgm[[1]]), svgmModel = as.data.frame(rvgm[[3]]), sp = rvgm[[2]])
   return(rkm)
 
 })
-
-"print.gstatModel" <- function(x, ...){
-  print(x@regModel)
-  print(x@vgmModel)
-  summary(x@sp)
-}
 
 ## end of script;

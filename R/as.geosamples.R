@@ -124,6 +124,7 @@ setMethod("as.geosamples", signature(obj = "SpatialPointsDataFrame"),
   function(obj, registry = as.character(NA), sample.area = 1, mxd = 2, TimeSpan.begin, TimeSpan.end) 
   {
   
+  require(plotKML)
   ## SpatialPoints should be in the WGS84 projection system:
   if(is.na(proj4string(obj))|!check_projection(obj)){ 
     stop(paste("proj4 string", get("ref_CRS", envir = plotKML.opts), "required")) 
@@ -252,6 +253,20 @@ setMethod("as.geosamples", signature(obj = "SpatialPointsDataFrame"),
 
 setMethod("subset", signature(x = "geosamples"), .subset.geosamples)
 
+.stack.geosamples <- function(x, lst=levels(x@methods$methodid), geo.columns=c("sampleid","longitude","latitude","altitude")){
+  require(reshape)
+  x.df.lst <- list(NULL)
+  for(j in 1:length(lst)){
+    x.df.lst[[j]] <- subset(x, method=lst[j])
+    x.df.lst[[j]][,lst[j]] <- as.numeric(x.df.lst[[j]][,"observedValue"])
+    x.df.lst[[j]] <- x.df.lst[[j]][!is.na(x.df.lst[[j]][,lst[j]]),c(geo.columns,lst[j])]
+  }
+  x.df <- reshape::merge_recurse(x.df.lst)
+  return(x.df)
+}
+
+setMethod("stack", signature(x = "geosamples"), .stack.geosamples)
+
 ## summary values:
 setMethod("show", signature(object = "geosamples"), 
   function(object) 
@@ -273,7 +288,7 @@ setMethod("show", signature(object = "geosamples"),
   # estimate the total area covered by the samples:
   sp.gc <- spTransform(sp, CRS("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs"))
   Tarea <- signif(diff(sp.gc@bbox[1,])*diff(sp.gc@bbox[2,])/1e6, 4)
-  cat("  Total area          :", paste(Tarea), "(square-km)", "\n")
+  cat("  Total area (app.)   :", paste(Tarea), "(square-km)", "\n")
 })
 
 

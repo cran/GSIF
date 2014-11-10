@@ -126,7 +126,7 @@ setClass(Class="FAO.SoilProfileCollection",
 })
 
 ## A new class for models fitted in gstat:
-setClass("gstatModel", representation(regModel = "ANY", vgmModel = "data.frame", sp = "SpatialPoints"), validity = function(object) {
+setClass("gstatModel", slots = c(regModel = "ANY", vgmModel = "data.frame", svgmModel = "data.frame", sp = "SpatialPoints"), validity = function(object) {
     ml = c("lm", "glm", "rpart", "randomForest", "lme", "gls", "zeroinfl")
     if(!any(class(object@regModel) %in% ml))
       return(paste("Only models of type", paste(ml, collapse=", "), "are accepted"))
@@ -140,12 +140,11 @@ setClass("gstatModel", representation(regModel = "ANY", vgmModel = "data.frame",
 })
 
 ### GSIF soil property maps class:
-setClass("SoilGrids", representation (varname = 'character', TimeSpan = 'list', sd1 = 'SpatialPixelsDataFrame', sd2 = 'SpatialPixelsDataFrame', sd3 = 'SpatialPixelsDataFrame', sd4 = 'SpatialPixelsDataFrame', sd5 = 'SpatialPixelsDataFrame', sd6 = 'SpatialPixelsDataFrame'), 
+setClass("SoilGrids", representation(varname = 'character', TimeSpan = 'list', sd1 = 'SpatialPixelsDataFrame', sd2 = 'SpatialPixelsDataFrame', sd3 = 'SpatialPixelsDataFrame', sd4 = 'SpatialPixelsDataFrame', sd5 = 'SpatialPixelsDataFrame', sd6 = 'SpatialPixelsDataFrame'), 
    prototype = list(varname = "NA", TimeSpan = list(begin=Sys.time(), end=Sys.time()), sd1 = NULL, sd2 = NULL, sd3 = NULL, sd4 = NULL, sd5 = NULL, sd6 = NULL), ## will not pass the validity check!
    validity = function(object){
-   load(soil.vars)
-   if(object@varname %in% soil.vars$varname){
-      return(paste("Property", object@varname, "not specified in the Soil Reference Library. See data(soil.vars) for more details."))
+   if(!(object@varname %in% soil.vars$varname)){
+      return(paste("Property", object@varname, "not specified in the Soil Reference Library. See 'data(soil.vars)' for more details."))
    }
    if(!all(sapply(object@TimeSpan, function(x){class(x)[1]})=="POSIXct") & object@TimeSpan[["begin"]] > object@TimeSpan[["end"]]){
       return("'TimeSpan' must indicate 'begin' and 'end' times to which the predictions refer to.") 
@@ -173,8 +172,8 @@ setClass("SoilGrids", representation (varname = 'character', TimeSpan = 'list', 
 ### GlobalSoilMap class (must be 100 m):
 setClass("GlobalSoilMap", representation (varname = 'character', TimeSpan = 'list', sd1 = 'SpatialPixelsDataFrame', sd2 = 'SpatialPixelsDataFrame', sd3 = 'SpatialPixelsDataFrame', sd4 = 'SpatialPixelsDataFrame', sd5 = 'SpatialPixelsDataFrame', sd6 = 'SpatialPixelsDataFrame'), 
    prototype = list(varname = "NA", TimeSpan = list(begin=Sys.time(), end=Sys.time()), sd1 = NULL, sd2 = NULL, sd3 = NULL, sd4 = NULL, sd5 = NULL, sd6 = NULL), validity = function(object){
-   if(object@TimeSpan.begin > object@TimeSpan.end){
-      return("'TimeSpan.begin' must indicate time before or equal to 'TimeSpan.end'") 
+   if(!all(sapply(object@TimeSpan, function(x){class(x)[1]})=="POSIXct") & object@TimeSpan[["begin"]] > object@TimeSpan[["end"]]){
+      return("'TimeSpan' must indicate 'begin' and 'end' times to which the predictions refer to.") 
    }
    ## check the target resolution:
    grd.lst <- get("cellsize", envir = GSIF.opts)
