@@ -24,12 +24,13 @@ Horizons table contains the following columns:
   \describe{
   \item{\code{SOURCEID}}{factor; a short label to help a user identify a particular site (\code{ProfileID} in the AFSP)}
   \item{\code{LSQINT}}{integer; a layer sequence number 1 to N (\code{LayerNr} in the AFSP)}
+  \item{\code{HZDFAO}}{factor; original horizon designation (\code{HorDes} in the AFSP)}
   \item{\code{UHDICM}}{numeric; upper horizon depth from the surface in cm (\code{UpDpth} in the AFSP)}
   \item{\code{LHDICM}}{numeric; lower horizon depth from the surface in cm (\code{LowDpth} in the AFSP)}
   \item{\code{MCOMNS}}{factor; Munsell color moist (\code{ColorM} in the NSCD)}
   \item{\code{CRFVOL}}{numeric; volume percentage of coarse fragments (> 2 mm; \code{CfPc} in the AFSP)}
-  \item{\code{SNDPPT}}{numeric; weight percentage of the sand particles (0.0002--0.05 mm; \code{Sand} in the AFSP)}
-  \item{\code{SLTPPT}}{numeric; weight percentage of the silt particles (0.05--2 mm; \code{Silt} in the AFSP)}
+  \item{\code{SNDPPT}}{numeric; weight percentage of the sand particles (0.05--2 mm; \code{Sand} in the AFSP)}
+  \item{\code{SLTPPT}}{numeric; weight percentage of the silt particles (0.0002--0.05 mm; \code{Silt} in the AFSP)}
   \item{\code{CLYPPT}}{numeric; weight percentage of the clay particles (<0.0002 mm; \code{Clay} in the AFSP)}
   \item{\code{BLD}}{bulk density in tonnes per cubic-meter (\code{BlkDens} in the AFSP)}
   \item{\code{PHIHOX}}{numeric; pH index measured in water solution (\code{PHH2O} in the AFSP)}
