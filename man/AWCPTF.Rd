@@ -29,7 +29,8 @@ Returns a data frame with the following columns:
    \item \code{AWCh1}: available soil water capacity (volumetric fraction) for h1; 
    \item \code{AWCh2}: available soil water capacity (volumetric fraction) for h2;
    \item \code{AWCh3}: available soil water capacity (volumetric fraction) for h3;
-   \item \code{WWP}: available soil water capacity (volumetric fraction) until wilting point;   
+   \item \code{WWP}: available soil water capacity (volumetric fraction) until wilting point;
+   \item \code{tetaS}: saturated water content;   
 }
 }
 \note{
@@ -53,7 +54,8 @@ PHIHOX = 6.4
 x <- AWCPTF(SNDPPT, SLTPPT, CLYPPT, ORCDRC, BLD, CEC, PHIHOX)
 str(x)
 attr(x, "coef")
-## predict AWC for the whole AfSP DB:
+
+## predict AWC for AfSP DB profile:
 data(afsp)
 names(afsp$horizons)
 ## profile of interest:

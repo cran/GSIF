@@ -1,8 +1,8 @@
 Package: GSIF
 Type: Package
 Title: Global Soil Information Facilities
-Version: 0.4-3
-Date: 2014-12-08
+Version: 0.4-4
+Date: 2015-01-30
 Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"), email = "tom.hengl@wur.nl"),
     person("Bas", "Kempen", role = "ctb", email = "bas.kempen@wur.nl"),
     person("Gerard", "Heuvelink", role = "ctb", email = "gerard.heuvelink@wur.nl"),
@@ -10,21 +10,21 @@ Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"), email = "tom.he
 Maintainer: Tomislav Hengl <tom.hengl@wur.nl>
 Depends: R (>= 2.15.0)
 Imports: methods, sp (>= 1.0-8), RSAGA, dismo, rgdal, raster, aqp,
-        plotKML, gstat, stats, boot, rpart, quantregForest,
-        randomForest, nlme
-Suggests: rjson, RCurl, soiltexture, spatstat, stringr, plyr, XML,
-        splines, mda, psych, nortest, reshape, fossil, AICcmodavg,
-        maptools, nnet, SDMTools, rJava (>= 0.5-0), spacetime,
-        gdalUtils, tools
+        plotKML, gstat, stats, plyr
+Suggests: rjson, RCurl, soiltexture, spatstat, stringr, XML, boot,
+        splines, mda, psych, nortest, rpart, quantregForest,
+        randomForest, nlme, reshape, fossil, AICcmodavg, maptools,
+        nnet, SDMTools, rJava (>= 0.5-0), spacetime, gdalUtils, tools,
+        maxlike
 Description: Global Soil Information Facilities - tools (standards and functions) and sample datasets for global soil mapping.
 License: GPL
 URL: http://gsif.r-forge.r-project.org/
 LazyLoad: yes
-Packaged: 2014-12-09 10:28:38 UTC; hengl001
+NeedsCompilation: no
+Packaged: 2015-01-30 14:46:54 UTC; hengl001
 Author: Tomislav Hengl [cre, aut],
   Bas Kempen [ctb],
   Gerard Heuvelink [ctb],
   Brendan Malone [ctb]
-NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2014-12-09 13:24:39
+Date/Publication: 2015-01-30 17:49:13
