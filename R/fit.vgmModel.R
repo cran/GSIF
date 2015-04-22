@@ -6,7 +6,7 @@
 
 
 ## fit variogram to a 2D or 3D point object:
-setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.frame", predictionDomain = "SpatialPixelsDataFrame"), function(formulaString, rmatrix, predictionDomain, vgmFun = "Exp", dimensions = list("3D", "2D", "2D+T", "3D+T")[[1]], anis = NULL, subsample = nrow(rmatrix), ivgm, cutoff, width = cutoff/15, cressie = FALSE, ...){
+setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.frame", predictionDomain = "SpatialPixelsDataFrame"), function(formulaString, rmatrix, predictionDomain, vgmFun = "Exp", dimensions = list("3D", "2D", "2D+T", "3D+T")[[1]], anis = NULL, subsample = nrow(rmatrix), ivgm, cutoff = NULL, width = cutoff/15, cressie = FALSE, ...){
 
   ## check input object:
   if(is.na(proj4string(predictionDomain))){ stop("proj4 string required for argument 'predictionDomain'") }
@@ -31,21 +31,21 @@ setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.f
   
   ## create spatial points:
   coordinates(rmatrix) <- as.formula(paste("~", paste(xyn, collapse = "+"), sep=""))
-  proj4string(rmatrix) = predictionDomain@proj4string
-  observations = as(rmatrix, "SpatialPoints")
+  proj4string(rmatrix) <- predictionDomain@proj4string
+  observations <- rmatrix
+  
+  ## subset to speed up the computing:
+  if(subsample < nrow(rmatrix)){
+    pcnt <- subsample/nrow(rmatrix)
+    message(paste("Subsetting observations to", signif(pcnt*100, 3), "percent"))
+    rmatrix <- rmatrix[runif(nrow(rmatrix))<pcnt,]
+  }
 
   ## model does not have to be fitted?
   if(vgmFun == "Nug"){
     rvgm <- gstat::vgm(nugget=var(rmatrix@data[,tv]), model=vgmFun, range=0, psill=var(rmatrix@data[,tv]))
-    svgm <- NA
+    svgm <- gstat::variogram(formulaString, rmatrix)
   } else {
-
-    ## subset if necessary to speed up the computing:
-    if(subsample < nrow(rmatrix)){
-      pcnt <- subsample/nrow(rmatrix)
-      message(paste("Subsetting observations to", signif(pcnt*100, 3), "percent"))
-      rmatrix <- rmatrix[runif(nrow(rmatrix))<pcnt,]
-    }
      
     ## guess the dimensions:
     if(missing(dimensions)){
@@ -69,7 +69,7 @@ setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.f
         ## estimate anisotropy parameters:
         anis = c(0, 0, 0, 1, a2)
       }
-      if(missing(cutoff)) { cutoff = Range }
+      if(missing(cutoff)|is.null(cutoff)) { cutoff = Range }
     }
     
     if(dimensions == "2D"){
@@ -102,10 +102,9 @@ setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.f
       
       ## estimate anisotropy parameters:
       anis = c(0, 1)
-      #if(missing(cutoff)) { cutoff = Range } ##BK: I think this does not give a proper default cutoff value for variogram estimation. I suggest to use the GSTAT default value.
       
       ## BK: if not given, determine sample variogram cutoff value based on gstat default
-      if(missing(cutoff)) {
+      if(missing(cutoff)|is.null(cutoff)) {
         dbbox <- round((sqrt((rmatrix@bbox[1,2]-rmatrix@bbox[1,1])**2+(rmatrix@bbox[2,2]-rmatrix@bbox[2,1])**2))/3,0)
         cutoff = dbbox
       }
@@ -120,17 +119,16 @@ setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.f
         #ivgm <- vgm(nugget=0, model=vgmFun, range=Range, psill=var(rmatrix@data[,tv]), anis = anis)
       }
     }
-    ## TH: 2D+T and 3D+T variogram fitting will be added;
+    ## TH: 2D+T and 3D+T variogram fitting will be added here;
     
     ## fit sample variogram 
-    svgm <- gstat::variogram(formulaString, rmatrix, cutoff=cutoff, width=width, cressie=cressie)
+    try( svgm <- gstat::variogram(formulaString, rmatrix, cutoff=cutoff, width=width, cressie=cressie) )
       
     ## try to fit a variogram using default settings:
-    try(rvgm <- gstat::fit.variogram(svgm, model=ivgm, ...))   
-    #try(rvgm <- gstat::fit.variogram(variogram(formulaString, rmatrix, cutoff=cutoff), model=ivgm, ...))  
+    try( rvgm <- gstat::fit.variogram(svgm, model=ivgm, ...) )     
     ## BK: the code below does not work for 'singular model' warnings, only when the function does not fit at all
     if(class(.Last.value)[1]=="try-error"){
-      try(rvgm <- gstat::fit.variogram(gstat::variogram(formulaString, rmatrix, cutoff=cutoff), model=ivgm, fit.ranges = FALSE, ...))
+      try( rvgm <- gstat::fit.variogram(gstat::variogram(formulaString, rmatrix, cutoff=cutoff), model=ivgm, fit.ranges = FALSE, ...) )
       if(class(.Last.value)[1]=="try-error"){    
         warning("Variogram model could not be fitted.") 
       } 
