@@ -1,13 +1,13 @@
 Package: GSIF
 Type: Package
 Title: Global Soil Information Facilities
-Version: 0.4-5
-Date: 2015-04-22
-Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"), email = "tom.hengl@wur.nl"),
+Version: 0.4-6
+Date: 2015-05-11
+Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"), email = "tom.hengl@isric.org"),
     person("Bas", "Kempen", role = "ctb", email = "bas.kempen@wur.nl"),
     person("Gerard", "Heuvelink", role = "ctb", email = "gerard.heuvelink@wur.nl"),
   	person("Brendan", "Malone", role = "ctb", email = "brendan.malone@sydney.edu.au"))
-Maintainer: Tomislav Hengl <tom.hengl@wur.nl>
+Maintainer: Tomislav Hengl <tom.hengl@isric.org>
 Depends: R (>= 2.15.0)
 Imports: methods, sp (>= 1.0-8), RSAGA, dismo, rgdal, raster, aqp,
         plotKML, gstat, stats, plyr
@@ -20,11 +20,11 @@ Description: Global Soil Information Facilities - tools (standards and functions
 License: GPL
 URL: http://gsif.r-forge.r-project.org/
 LazyLoad: yes
-Packaged: 2015-04-22 05:48:01 UTC; hengl001
+NeedsCompilation: no
+Packaged: 2015-05-11 16:24:11 UTC; hengl001
 Author: Tomislav Hengl [cre, aut],
   Bas Kempen [ctb],
   Gerard Heuvelink [ctb],
   Brendan Malone [ctb]
-NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2015-04-22 09:00:35
+Date/Publication: 2015-05-11 20:17:59

@@ -88,8 +88,8 @@ setMethod("spfkm", signature(formulaString = "formula", observations = "SpatialP
   if(requireNamespace("mda", quietly = TRUE)&requireNamespace("psych", quietly = TRUE)){
     cf <- mda::confusion(ov[sel.c,tv], as.character(observations@data[sel.c,tv]))
     ## remove missing classes:
-    a = attr(cf, "dimnames")[[1]] %in% attr(cf, "dimnames")[[2]] 
-    b = attr(cf, "dimnames")[[2]] %in% attr(cf, "dimnames")[[1]]
+    a <- attr(cf, "dimnames")[[1]] %in% attr(cf, "dimnames")[[2]] 
+    b <- attr(cf, "dimnames")[[2]] %in% attr(cf, "dimnames")[[1]]
     c.kappa = psych::cohen.kappa(cf[a,b])
     message(paste("Estimated Cohen Kappa (weighted):", signif(c.kappa$weighted.kappa, 4)))  
   } else {

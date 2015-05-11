@@ -18,8 +18,8 @@ setMethod("spmultinom", signature(formulaString = "formula", observations = "Spa
   }
   
   ## selected variables:
-  tv = all.vars(formulaString)[1]
-  sel = names(covariates) %in% all.vars(formulaString)[-1]
+  tv <- all.vars(formulaString)[1]
+  sel <- names(covariates) %in% all.vars(formulaString)[-1]
   if(all(sel==FALSE)|length(sel)==0){
       stop("None of the covariates in the 'formulaString' matches the column names in the 'covariates' object")
   }

@@ -259,7 +259,7 @@ setClass("SpatialComponents", representation (predicted = "SpatialPixelsDataFram
 })
 
 ## SpatialMemberships class
-setClass("SpatialMemberships", representation (predicted = "SpatialPixelsDataFrame", model = "list", mu = "SpatialPixelsDataFrame", class.c = "matrix", class.sd = "matrix", confusion = "matrix"), validity = function(object) {
+setClass("SpatialMemberships", representation (predicted = "SpatialPixelsDataFrame", model = "list", mu = "SpatialPixelsDataFrame", class.c = "matrix", class.sd = "matrix", confusion = "ANY"), validity = function(object) {
    # check if column names match:
    if(!any(names(object@mu) %in% levels(object@predicted@data[,1])))
       return("Class names in the 'predicted' and 'mu' slots do not match")
@@ -273,9 +273,9 @@ setClass("SpatialMemberships", representation (predicted = "SpatialPixelsDataFra
    # check if all mu's sum to 1 (plus minus 1%):
    if(!all(rowSums(object@mu@data, na.rm=TRUE)>.99&rowSums(object@mu@data, na.rm=TRUE)<1.01))
       return("Some rows in the 'mu' slot do not sum up to 1")
-   # check if the confusion matrix has kappa > 0
-   if(length(object@confusion)==0|attr(object@confusion, "error")==0)
-      return("Not possible to derive confusion table or no significant match detected")
+   ## check if the confusion matrix has kappa > 0
+#   if(length(object@confusion)==0|attr(object@confusion, "error")==0)
+#      return("Not possible to derive confusion table or no significant match detected")
 })
 
 
@@ -352,6 +352,10 @@ if(!isGeneric("make.3Dgrid")){
 
 if (!isGeneric("fit.gstatModel")){
   setGeneric("fit.gstatModel", function(observations, formulaString, covariates, ...){standardGeneric("fit.gstatModel")})
+}
+
+if (!isGeneric("autopredict")){
+  setGeneric("autopredict", function(target, covariates, ...){standardGeneric("autopredict")})
 }
 
 if (!isGeneric("test.gstatModel")){

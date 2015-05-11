@@ -18,7 +18,7 @@
 }
 Data of class \code{"FAO.SoilProfileCollection"} must satisfy all of the following requirements (class validity):
   \itemize{
-   \item All variable names must be registered in the \href{https://www.google.com/fusiontables/DataSource?docid=1VVfBtsRijz_cRM8p5nj5hnijx6AQB9hbYzfRIZQ}{Global Soil Data Registry};
+   \item All variable names must be registered in the Global Soil Data Registry;
    \item All variable domains must correspond to the FAO Guidelines (2006 or later) for soil description or similar;
    \item All values must pass the validity checks i.e. numeric values must be within physical limits defined in the SoilGrids Global Soil Data Registry;
   }
