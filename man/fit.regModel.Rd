@@ -5,21 +5,20 @@
 \description{Fits a regression or a trend model (e.g. a GLM) and, if not available, a variogram for the response residuals using the default settings.}
 \usage{
 \S4method{fit.regModel}{formula,data.frame,SpatialPixelsDataFrame,character}(formulaString, rmatrix, predictionDomain, 
-      method = list("GLM", "rpart", "randomForest", "quantregForest", "lme")[[1]], 
+      method = list("GLM", "rpart", "randomForest", "quantregForest", "lme"), 
       dimensions = NULL, fit.family = gaussian(), stepwise = TRUE, rvgm, 
-      GLS = FALSE, random, steps, subsample, subsample.reg, \dots)
+      GLS = FALSE, steps, subsample, subsample.reg, \dots)
 }
 \arguments{
   \item{formulaString}{object of class \code{"formula"} --- regression model} 
   \item{rmatrix}{object of class \code{"data.frame"}; regression matrix produced as a result of spatial overlay}
   \item{predictionDomain}{object of class \code{"SpatialPixelsDataFrame"}; spatial domain of interest}
   \item{method}{character; family of methods considered e.g. \code{"GLM"}, \code{"rpart"} (regression trees), \code{"randomForest"} (random forest)}
-  \item{dimensions}{character; \code{"3D"}, \code{"2D"}, \code{"2D+T"}, \code{"3D+T"} models}
+  \item{dimensions}{character; \code{"2D"}, \code{"3D"}, \code{"2D+T"}, or \code{"3D+T"}}
   \item{fit.family}{family to be passed to the \code{glm} (see examples below)}
   \item{stepwise}{specifies whether to run step-wise regression on top of GLM to get an optimal subset of predictors}
   \item{rvgm}{residual variogram (to avoid fitting the variogram set as NULL)}
   \item{GLS}{fit trend model using Generalized Least Squares implemented in the nlme package}
-  \item{random}{specify the random function model; see \code{nlme::lme} for more details}
   \item{steps}{integer; the maximum number of steps to be considered for step-wise regression; see \code{stats::step} for more details}
   \item{subsample}{integer; maximum number of observations to be taken for variogram model fitting (to speed up variogram fitting)}
   \item{subsample.reg}{integer; maximum number of observations to be taken for regression model fitting (especially important for randomForest modelling)}

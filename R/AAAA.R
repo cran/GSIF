@@ -1,6 +1,6 @@
 # Purpose        : Initial settings;
 # Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : Dylan Beaudette (dylan.beaudette@gmail.com); 
+# Contributions  : Dylan Beaudette (dylan.beaudette@gmail.com);
 # Dev Status     : Pre-Alpha
 # Note           : Aqp classes described here -> [http://r-forge.r-project.org/projects/aqp/]; for more info see [http://cran.r-project.org/doc/manuals/R-exts.html];
 
@@ -25,13 +25,13 @@ GSIF.env <- function(
     TimeSpan = list(begin=as.POSIXct("1950-01-01"), end=as.POSIXct("2005-12-30")),
     show.env = TRUE
     ){
-    
+
     md.lst <- list(wps.server=wps.server, ref_CRS=ref_CRS, NAflag=NAflag, license_url=license_url, project_url=project_url, stdepths=stdepths, stsize=stsize, cellsize=cellsize, REST.server=REST.server, attributes=attributes, TimeSpan=TimeSpan)
-    
-    x <- lapply(names(md.lst), function(x){ assign(x, md.lst[[x]], envir=GSIF.opts) })  
-    if(show.env){  
-      return(md.lst)  
-    } 
+
+    x <- lapply(names(md.lst), function(x){ assign(x, md.lst[[x]], envir=GSIF.opts) })
+    if(show.env){
+      return(md.lst)
+    }
 }
 
 # load GSIF.opts with some basic information
@@ -40,7 +40,7 @@ GSIF.env(show.env = FALSE)
 ################## NEW GSIF CLASSES ##############
 
 ## Copy of the 'SoilProfileCollection' class basically (see [http://aqp.r-forge.r-project.org/aqp-html-manual/]):	
-setClass(Class="FAO.SoilProfileCollection", 
+setClass(Class="FAO.SoilProfileCollection",
   representation=representation(
     idcol='character', # column name containing IDs
     depthcols='character', # 2 element vector with column names for hz top, bottom
@@ -68,7 +68,7 @@ setClass(Class="FAO.SoilProfileCollection",
     if(any(c(is.na(h[[top]]), is.na(h[[bottom]])))) {
   		return("Horizon top and bottom values cannot contain NA values")
  	  }
-    test.h <- !h[[top]] < h[[bottom]] 
+    test.h <- !h[[top]] < h[[bottom]]
     if(any(test.h)){
       return("Invalid horizon bottom values found at row:", paste(which(test.h), collapse=", "))
     }
@@ -93,14 +93,14 @@ setClass(Class="FAO.SoilProfileCollection",
         message("Removing Munsell colour codes not available in the domain table")
         x <- merge(object@horizons["DCOMNS"], munsell, by.x="DCOMNS", by.y="Munsell", all.x=TRUE, sort=FALSE)
         object@horizons$DCOMNS <- ifelse(is.na(x$R), NA, x$DCOMNS)
-      }      
+      }
     }
     if(any(names(object@horizons) %in% "MCOMNS")){
       if(any(!levels(as.factor(object@horizons$MCOMNS)) %in% levels(munsell$Munsell))){
         message("Removing Munsell colour codes not available in the domain table")
         x <- merge(object@horizons["MCOMNS"], munsell, by.x="MCOMNS", by.y="Munsell", all.x=TRUE, sort=FALSE)
         object@horizons$MCOMNS <- ifelse(is.na(x$R), NA, x$MCOMNS)
-      }      
+      }
     }
     ## check domains in the site table:
     for(j in 1:ncol(object@site)){
@@ -122,7 +122,7 @@ setClass(Class="FAO.SoilProfileCollection",
         }
       }
     }
-    ## check metadata slot    
+    ## check metadata slot
 })
 
 ## A new class for models fitted in gstat:
@@ -135,19 +135,19 @@ setClass("gstatModel", slots = c(regModel = "ANY", vgmModel = "data.frame", svgm
       return(paste("Expecting only column names:", paste(cn, collapse=", ")))
     if(!all(cn %in% names(object@vgmModel))){
       x <- cn[!(cn %in% names(object@vgmModel))]
-      return(paste("Missing column names:", paste(x, collapse=", "))) 
+      return(paste("Missing column names:", paste(x, collapse=", ")))
       }
 })
 
 ### GSIF soil property maps class:
-setClass("SoilGrids", representation(varname = 'character', TimeSpan = 'list', sd1 = 'SpatialPixelsDataFrame', sd2 = 'SpatialPixelsDataFrame', sd3 = 'SpatialPixelsDataFrame', sd4 = 'SpatialPixelsDataFrame', sd5 = 'SpatialPixelsDataFrame', sd6 = 'SpatialPixelsDataFrame'), 
+setClass("SoilGrids", representation(varname = 'character', TimeSpan = 'list', sd1 = 'SpatialPixelsDataFrame', sd2 = 'SpatialPixelsDataFrame', sd3 = 'SpatialPixelsDataFrame', sd4 = 'SpatialPixelsDataFrame', sd5 = 'SpatialPixelsDataFrame', sd6 = 'SpatialPixelsDataFrame'),
    prototype = list(varname = "NA", TimeSpan = list(begin=Sys.time(), end=Sys.time()), sd1 = NULL, sd2 = NULL, sd3 = NULL, sd4 = NULL, sd5 = NULL, sd6 = NULL), ## will not pass the validity check!
    validity = function(object){
    if(!(object@varname %in% soil.vars$varname)){
       return(paste("Property", object@varname, "not specified in the Soil Reference Library. See 'data(soil.vars)' for more details."))
    }
    if(!all(sapply(object@TimeSpan, function(x){class(x)[1]})=="POSIXct") & object@TimeSpan[["begin"]] > object@TimeSpan[["end"]]){
-      return("'TimeSpan' must indicate 'begin' and 'end' times to which the predictions refer to.") 
+      return("'TimeSpan' must indicate 'begin' and 'end' times to which the predictions refer to.")
    }
    if(ncol(object@sd1)<2|ncol(object@sd2)<2|ncol(object@sd3)<2|ncol(object@sd4)<2|ncol(object@sd5)<2|ncol(object@sd6)<2){
       return("Object in slot 'sd' with at least two realizations (or predictions and variances) required")
@@ -160,29 +160,29 @@ setClass("SoilGrids", representation(varname = 'character', TimeSpan = 'list', s
    ## check the target resolution:
    grd.lst <- get("cellsize", envir = GSIF.opts)
    if(!any(object@sd1@grid@cellsize %in% grd.lst)|!any(object@sd2@grid@cellsize %in% grd.lst)|!any(object@sd3@grid@cellsize %in% grd.lst)|!any(object@sd4@grid@cellsize %in% grd.lst)|!any(object@sd5@grid@cellsize %in% grd.lst)|!any(object@sd6@grid@cellsize %in% grd.lst)){
-      return(paste("Grid cell size does not correspond to one of the following:", paste(signif(grd.lst, 4), collapse=", "))) 
+      return(paste("Grid cell size does not correspond to one of the following:", paste(signif(grd.lst, 4), collapse=", ")))
    }
    ## check the bounding boxes:
    if(!(any(object@sd1@bbox %in% as.list(object@sd2@bbox, object@sd3@bbox, object@sd4@bbox, object@sd5@bbox, object@sd6@bbox)))){
-      return("The bounding box of all 'sd' slots is not standard") 
+      return("The bounding box of all 'sd' slots is not standard")
    }
 })
 
 
 ### GlobalSoilMap class (must be 100 m):
-setClass("GlobalSoilMap", representation (varname = 'character', TimeSpan = 'list', sd1 = 'SpatialPixelsDataFrame', sd2 = 'SpatialPixelsDataFrame', sd3 = 'SpatialPixelsDataFrame', sd4 = 'SpatialPixelsDataFrame', sd5 = 'SpatialPixelsDataFrame', sd6 = 'SpatialPixelsDataFrame'), 
+setClass("GlobalSoilMap", representation (varname = 'character', TimeSpan = 'list', sd1 = 'SpatialPixelsDataFrame', sd2 = 'SpatialPixelsDataFrame', sd3 = 'SpatialPixelsDataFrame', sd4 = 'SpatialPixelsDataFrame', sd5 = 'SpatialPixelsDataFrame', sd6 = 'SpatialPixelsDataFrame'),
    prototype = list(varname = "NA", TimeSpan = list(begin=Sys.time(), end=Sys.time()), sd1 = NULL, sd2 = NULL, sd3 = NULL, sd4 = NULL, sd5 = NULL, sd6 = NULL), validity = function(object){
    if(!all(sapply(object@TimeSpan, function(x){class(x)[1]})=="POSIXct") & object@TimeSpan[["begin"]] > object@TimeSpan[["end"]]){
-      return("'TimeSpan' must indicate 'begin' and 'end' times to which the predictions refer to.") 
+      return("'TimeSpan' must indicate 'begin' and 'end' times to which the predictions refer to.")
    }
    ## check the target resolution:
    grd.lst <- get("cellsize", envir = GSIF.opts)
    if(!all(object@sd1@grid@cellsize == grd.lst[2])|!all(object@sd2@grid@cellsize == grd.lst[2])|!all(object@sd3@grid@cellsize == grd.lst[2])|!all(object@sd4@grid@cellsize == grd.lst[2])|!all(object@sd5@grid@cellsize == grd.lst[2])|!all(object@sd6@grid@cellsize == grd.lst[2])){
-      return(paste("Grid cell size does not correspond the prescribed resolution:", paste(signif(grd.lst[2], 4), collapse=", "))) 
+      return(paste("Grid cell size does not correspond the prescribed resolution:", paste(signif(grd.lst[2], 4), collapse=", ")))
    }
    ## check the bounding boxes:
    if(!(any(object@sd1@bbox %in% as.list(object@sd2@bbox, object@sd3@bbox, object@sd4@bbox, object@sd5@bbox, object@sd6@bbox)))){
-      return("The bounding box of all 'sd' slots is not standard") 
+      return("The bounding box of all 'sd' slots is not standard")
    }
 })
 
@@ -199,11 +199,11 @@ setClass("geosamples", representation (registry = 'character', methods = 'data.f
       return("'methodid' levels in the methods table and data table do not match")
    if(!any(class(object@data$TimeSpan.begin) %in% "POSIXct") | !any(class(object@data$TimeSpan.end) %in% "POSIXct")) {
       return("'TimeSpan.begin' and 'TimeSpan.end' of class 'POSIXct' required")
-      } 
+      }
       else {
-      sel <- !is.na(object@data$TimeSpan.begin)&!is.na(object@data$TimeSpan.end)  
+      sel <- !is.na(object@data$TimeSpan.begin)&!is.na(object@data$TimeSpan.end)
       if(any(object@data$TimeSpan.begin[sel] > object@data$TimeSpan.end[sel]))
-        return("'TimeSpan.begin' must indicate time before or equal to 'TimeSpan.end'")      
+        return("'TimeSpan.begin' must indicate time before or equal to 'TimeSpan.end'")
       }
    if(any(object@data$measurementError[!is.na(object@data$measurementError)] < 0))
        return("'measurementError' must be positive numbers")
@@ -213,7 +213,7 @@ setClass("geosamples", representation (registry = 'character', methods = 'data.f
        return("'sampleThickness' must be positive numbers")
    # test if it is a longlat object:
    if(any(object@data$longitude>180|object@data$longitude< -180|object@data$latitude< -90|object@data$latitude> 90))
-      return("longitude and latitude values in the range -180 to 180 and -90 to 90 required") 
+      return("longitude and latitude values in the range -180 to 180 and -90 to 90 required")
 })
 
 ## WPS class
@@ -222,7 +222,7 @@ setClass("WPS", representation (server = 'list', inRastername = 'character'), va
    if(any(!(names(object@server) %in% cnames)))
       return(paste("Expecting only column names:", paste(cnames, collapse=", ")))
    ## check if URI exists:
-   uri = paste(paste(object@server$URI, "?", sep=""), object@server$version, object@server$service, "request=GetCapabilities", sep="&") 
+   uri = paste(paste(object@server$URI, "?", sep=""), object@server$version, object@server$service, "request=GetCapabilities", sep="&")
    if(requireNamespace("RCurl", quietly = TRUE)){
      try(z <- RCurl::getURI(uri, .opts=RCurl::curlOptions(header=TRUE, nobody=TRUE, transfertext=TRUE, failonerror=FALSE)))
    } else {
@@ -244,7 +244,7 @@ setClass("REST.SoilGrids", representation (server = 'character', query = 'list',
    }
    if(!length(x <- grep(z, pattern="404 Not Found"))==0){
       return("Server error: 404 Not Found")
-   } 
+   }
 })
 
 ## SpatialComponents class
@@ -260,16 +260,16 @@ setClass("SpatialComponents", representation (predicted = "SpatialPixelsDataFram
 
 ## SpatialMemberships class
 setClass("SpatialMemberships", representation (predicted = "SpatialPixelsDataFrame", model = "list", mu = "SpatialPixelsDataFrame", class.c = "matrix", class.sd = "matrix", confusion = "ANY"), validity = function(object) {
-   # check if column names match:
-   if(!any(names(object@mu) %in% levels(object@predicted@data[,1])))
-      return("Class names in the 'predicted' and 'mu' slots do not match")
-   # check if the row names in the class.sd, class.c match:
+   ## check if column names match:
+   #if(!any(names(object@mu) %in% levels(object@predicted@data[,1])))
+   #   return("Class names in the 'predicted' and 'mu' slots do not match")
+   ## check if the row names in the class.sd, class.c match:
    if(!all(row.names(object@class.c) %in% levels(object@predicted@data[,1])))
       return("Row names in the 'class.c' slot and 'predicted' slots do not match")
    if(!all(row.names(object@class.sd) %in% levels(object@predicted@data[,1])))
       return("Row names in the 'class.sd' slot and 'predicted' slots do not match")
    if(ncol(object@mu@data)<2)
-      return("A minimum of two membership maps required")   
+      return("A minimum of two membership maps required")
    # check if all mu's sum to 1 (plus minus 1%):
    if(!all(rowSums(object@mu@data, na.rm=TRUE)>.99&rowSums(object@mu@data, na.rm=TRUE)<1.01))
       return("Some rows in the 'mu' slot do not sum up to 1")
@@ -396,6 +396,9 @@ if (!isGeneric("warp")){
 
 if (!isGeneric("MaxEnt")){
   setGeneric("MaxEnt", function(occurrences, covariates, ...){standardGeneric("MaxEnt")})
+}
+if (!isGeneric("sample.grid")){
+  setGeneric("sample.grid", function(obj, cell.size, n, ...){standardGeneric("sample.grid")})
 }
 
 # end of script;

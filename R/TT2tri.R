@@ -44,9 +44,9 @@ TT2tri <- function(TT.class, se.fit=TRUE, TT.im=NULL, soil.var="TEXMHT"){
      } 
   }
   if(se.fit==TRUE){
-    out <- merge(data.frame(TT.class), class.c[,c("TT.class","SND","SLT","CLY","SND.sd","SLT.sd","CLY.sd")], all.x=TRUE, all.y=FALSE)
+    out <- plyr::join(data.frame(TT.class), class.c[,c("TT.class","SND","SLT","CLY","SND.sd","SLT.sd","CLY.sd")], type="left")
   } else {
-    out <- merge(data.frame(TT.class), class.c[,c("TT.class","SND","SLT","CLY")], all.x=TRUE, all.y=FALSE)
+    out <- plyr::join(data.frame(TT.class), class.c[,c("TT.class","SND","SLT","CLY")] , type="left")
   }
   return(out) 
 }

@@ -6,8 +6,9 @@
 
 
 ## fit variogram to a 2D or 3D point object:
-setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.frame", predictionDomain = "SpatialPixelsDataFrame"), function(formulaString, rmatrix, predictionDomain, vgmFun = "Exp", dimensions = list("3D", "2D", "2D+T", "3D+T")[[1]], anis = NULL, subsample = nrow(rmatrix), ivgm, cutoff = NULL, width = cutoff/15, cressie = FALSE, ...){
+setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.frame", predictionDomain = "SpatialPixelsDataFrame"), function(formulaString, rmatrix, predictionDomain, vgmFun = "Exp", dimensions = list("2D", "3D", "2D+T", "3D+T"), anis = NULL, subsample = nrow(rmatrix), ivgm, cutoff = NULL, width = cutoff/15, cressie = FALSE, ...){
 
+  dimensions <- dimensions[[1]]
   ## check input object:
   if(is.na(proj4string(predictionDomain))){ stop("proj4 string required for argument 'predictionDomain'") }
 

@@ -6,8 +6,10 @@
 
 
 ## Fit a 'simple' 2D RK model:
-setMethod("fit.gstatModel", signature(observations = "SpatialPointsDataFrame", formulaString = "formula", covariates = "SpatialPixelsDataFrame"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest")[[1]], dimensions = list("3D", "2D", "2D+T", "3D+T")[[1]], fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
+setMethod("fit.gstatModel", signature(observations = "SpatialPointsDataFrame", formulaString = "formula", covariates = "SpatialPixelsDataFrame"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest"), dimensions = list("2D", "3D", "2D+T", "3D+T"), fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
  
+  method <- method[[1]]
+  dimensions <- dimensions[[1]]
   ## TH: the function only works with 2D maps at the moment:
   if(length(attr(coordinates(observations), "dimnames")[[2]])>2){
     warning("This method uses only 2D coordinates of the points. For 3D data consider using the 'geosamples-class'.")
@@ -44,15 +46,17 @@ setMethod("fit.gstatModel", signature(observations = "SpatialPointsDataFrame", f
   }
   
   ## fit/filter the regression model:
-  m <- fit.regModel(formulaString = formulaString, rmatrix = ov, predictionDomain = covariates[seln], method = method, dimensions = "2D", fit.family = fit.family, stepwise = stepwise, vgmFun = vgmFun, subsample = subsample, subsample.reg = subsample.reg, ...)   
+  m <- fit.regModel(formulaString = formulaString, rmatrix = ov, predictionDomain = covariates[seln], method = method, dimensions = dimensions, fit.family = fit.family, stepwise = stepwise, vgmFun = vgmFun, subsample = subsample, subsample.reg = subsample.reg, ...)
   return(m)
   
 })
 
 
 ## Fit a RK model using geosamples class:
-setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString = "formula", covariates = "SpatialPixelsDataFrame"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest")[[1]], dimensions = list("3D", "2D", "2D+T", "3D+T")[[1]], fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
+setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString = "formula", covariates = "SpatialPixelsDataFrame"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest"), dimensions = list("2D", "3D", "2D+T", "3D+T"), fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
   
+  method <- method[[1]]
+  dimensions <- dimensions[[2]]
   ## TH: the model has to include at least one covariate:
   if(length(all.vars(formulaString)[-1])==0){
     stop("No covariates have been specified in the 'formulaString'")
@@ -88,29 +92,34 @@ setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString
 
 
 ## Fit a RK model to a list of covariates / formulas:
-setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString = "list", covariates = "list"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest")[[1]], dimensions = list("3D", "2D", "2D+T", "3D+T")[[1]], fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
-    if(!length(formulaString)==length(covariates)){
-      stop("'formulaString' and 'covariates' lists of same size expected")
-    }
-    
-    rkm.l <- list(NULL)
-    for(l in 1:length(covariates)){   
-      rkm.l[[l]] <- fit.gstatModel(observations, formulaString[[l]], covariates[[l]], methodid = methodid, fit.family = fit.family, stepwise = stepwise, subsample = subsample, subsample.reg = subsample.reg, ...)
-    }
-    return(rkm.l)  
+setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString = "list", covariates = "list"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest"), dimensions = list("2D", "3D", "2D+T", "3D+T"), fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
+
+  method <- method[[1]]
+  dimensions <- dimensions[[2]]
+  if(!length(formulaString)==length(covariates)){
+    stop("'formulaString' and 'covariates' lists of same size expected")
+  }
+  
+  rkm.l <- list(NULL)
+  for(l in 1:length(covariates)){   
+    rkm.l[[l]] <- fit.gstatModel(observations, formulaString[[l]], covariates[[l]], method = method, fit.family = fit.family, stepwise = stepwise, subsample = subsample, subsample.reg = subsample.reg, dimensions = dimensions, ...)
+  }
+  return(rkm.l)  
 
 })
 
 
 ## Fit a RK model and return an object of class "gstatModel" for a list of multiscale grids:
-setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString = "formula", covariates = "list"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest")[[1]], dimensions = list("3D", "2D", "2D+T", "3D+T")[[1]], fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
+setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString = "formula", covariates = "list"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest"), dimensions = list("2D", "3D", "2D+T", "3D+T"), fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
 
+  method <- method[[1]]
+  dimensions <- dimensions[[2]]
   if(!any(sapply(covariates, class)=="SpatialPixelsDataFrame")){
     stop("List of covariates of class 'SpatialPixelsDataFrame' expected")
   }
 
   if(!missing(fit.family) & !method=="GLM"){ 
-    warning("'fit.family' argument will be ignored. Use 'method=\"GLM\"' instead.")  
+    warning("'fit.family' argument will be ignored. Use 'method=\"GLM\"' instead.")
   }
 
   ## covariate names:
@@ -148,7 +157,7 @@ setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString
   }
   
   ## fit/filter the regression model:
-  m <- fit.regModel(formulaString = formulaString, rmatrix = ov, predictionDomain = covariates[[1]], method = method, dimensions = "3D", fit.family = fit.family, stepwise = stepwise, vgmFun = vgmFun, subsample = subsample, subsample.reg = subsample.reg, ...) 
+  m <- fit.regModel(formulaString = formulaString, rmatrix = ov, predictionDomain = covariates[[1]], method = method, dimensions = dimensions, fit.family = fit.family, stepwise = stepwise, vgmFun = vgmFun, subsample = subsample, subsample.reg = subsample.reg, ...)
   return(m) 
 
 })

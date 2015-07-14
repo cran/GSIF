@@ -9,7 +9,7 @@ setMethod("spc", signature(obj = "SpatialPixelsDataFrame", formulaString = "form
 
   ## formula string:
   if(missing(formulaString)) {
-     formulaString <- as.formula(paste("~", paste(out@layernames, collapse="+")))
+     formulaString <- as.formula(paste("~", paste(names(obj), collapse="+")))
   }
   vars = all.vars(formulaString)
   if(length(vars)< 2){
@@ -44,7 +44,7 @@ setMethod("spc", signature(obj = "SpatialPixelsDataFrame", formulaString = "form
     x <- scale(obj@data) 
     x[is.na(x)] <- 0
     x <- as.data.frame(x)
-    sd.l <- lapply(x, sd)
+    sd.l <- lapply(x, FUN=sd)
     x0 <- sd.l==0
     if(any(x0)){
       message(paste("Columns with zero variance removed:", names(x)[which(x0)]), immediate. = TRUE)

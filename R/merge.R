@@ -14,7 +14,7 @@ setMethod("merge", signature(x = "SpatialPredictions", y = "SpatialPredictions")
 	}
 	
   # target variable
-  variables = sapply(r, FUN=function(x){x@variable})
+  variables <- sapply(r, FUN=function(x){x@variable})
 	# check if the names are consistent:
   if(!length(unique(variables))==1){
 	   stop("Merging of objects of class 'SpatialPredictions' requires idential 'variable' slot names")
@@ -50,22 +50,22 @@ setMethod("merge", signature(x = "SpatialPredictions", y = "SpatialPredictions")
   } else {
     # 2D data:
     if(length(names(cd))==2){ 
-    # pick up the most detailed scale:
-    cellsize.l <- sapply(r, FUN=function(x){x@grid@cellsize[1]})
-    tc <- which(cellsize.l == min(cellsize.l))
-    out <- r[[tc[1]]]
-    fullgrid(out) <- TRUE
-    r[[tc[1]]] <- NULL
-    ret <- list(NULL)
-    for(j in 1:length(r)){
-      # resample all the grids to the finest resolution:
-      if(cellsize.l[j] > min(cellsize.l)|!identical(out@bbox, obj[[j]]@bbox)){
-         ret[[j]] <- warp(r[[j]], proj4s = proj4string(out), pixsize = min(cellsize.l), GridTopology = out@grid, resampling_method = "cubicspline")
-      }
-      else {
-        ret[[j]] <- r[[j]]
-      } 
-    }
+      # pick up the most detailed scale:
+      cellsize.l <- sapply(r, FUN=function(x){x@grid@cellsize[1]})
+      tc <- which(cellsize.l == min(cellsize.l))
+      out <- r[[tc[1]]]
+      fullgrid(out) <- TRUE
+      r[[tc[1]]] <- NULL
+      ret <- list(NULL)
+      for(j in 1:length(r)){
+          # resample all the grids to the finest resolution:
+          if(cellsize.l[j] > min(cellsize.l)|!identical(out@bbox, r[[j]]@bbox)){
+             ret[[j]] <- warp(r[[j]], proj4s = proj4string(out), pixsize = min(cellsize.l), GridTopology = out@grid, resampling_method = "cubicspline")
+          }
+          else {
+            ret[[j]] <- r[[j]]
+          } 
+        }
     ret <- lapply(ret, FUN=function(x){slot(x, "data")})
     out@data <- cbind(out@data, do.call(cbind, ret))
     out <- as(out, "SpatialPixelsDataFrame")

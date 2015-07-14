@@ -9,14 +9,14 @@
 \usage{ 
 \S4method{predict}{gstatModel}(object, 
      predictionLocations, nmin = 10, nmax = 30, debug.level = -1, 
-     predict.method = c("RK", "KED")[1], nfold = 5, verbose = FALSE, 
+     predict.method = c("RK", "KED"), nfold = 5, verbose = FALSE, 
      nsim = 0, mask.extra = TRUE, block, 
      zmin = -Inf, zmax = Inf, subsample = length(object@sp), 
      coarsening.factor = 1, vgmmodel = object@vgmModel,
      subset.observations = !is.na(object@sp@coords[,1]), betas = c(0,1), extend = .5, \dots)
 \S4method{predict}{list}(object, 
      predictionLocations, nmin = 10, nmax = 30, debug.level = -1, 
-     predict.method = c("RK", "KED")[1], nfold = 5, verbose = FALSE, 
+     predict.method = c("RK", "KED"), nfold = 5, verbose = FALSE, 
      nsim = 0, mask.extra = TRUE, block, 
      zmin = -Inf, zmax = Inf, subsample = length(object@sp), \dots)
 }

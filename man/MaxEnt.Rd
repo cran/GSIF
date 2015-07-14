@@ -37,11 +37,12 @@ library(rJava)
 library(spatstat)
 library(maptools)
 library(dismo)
+library(rgdal)
 
 data(eberg)
 data(eberg_grid)
 ## prepare data for spatial analysis:
-eberg.xy <- eberg[runif(nrow(eberg)) < .3,]
+eberg.xy <- eberg[runif(nrow(eberg))<0.3,]
 coordinates(eberg.xy) <- ~X+Y
 proj4string(eberg.xy) <- CRS("+init=epsg:31467")
 ## format gridded data:

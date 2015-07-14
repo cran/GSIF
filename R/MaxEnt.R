@@ -40,7 +40,7 @@ setMethod("MaxEnt", signature(occurrences = "ppp", covariates = "SpatialPixelsDa
     # randomly take 20% of observations:
     xy.test <- xy[fold == 1,]
     bgp <- dismo::randomPoints(covariates, Npoints)  
-    ev <- evaluate(me, p=xy.test, a=bgp, x=covariates)
+    ev <- dismo::evaluate(me, p=xy.test, a=bgp, x=covariates)
     # this allows estimation of the threshold probability:
     threshold <- ev@t[which.max(ev@TPR + ev@TNR)]
     # prepare data for plotKML:

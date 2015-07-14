@@ -6,7 +6,7 @@
 
 
 ## Fit a GLM to spatial data:
-setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.frame", predictionDomain = "SpatialPixelsDataFrame", method = "character"), function(formulaString, rmatrix, predictionDomain, method = list("GLM", "rpart", "randomForest", "quantregForest", "lme")[[1]], dimensions = NULL, fit.family = gaussian(), stepwise = TRUE, rvgm, GLS = FALSE, random, steps = 100, subsample, subsample.reg, ...){                         
+setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.frame", predictionDomain = "SpatialPixelsDataFrame", method = "character"), function(formulaString, rmatrix, predictionDomain, method = list("GLM", "rpart", "randomForest", "quantregForest", "lme"), dimensions = NULL, fit.family = gaussian(), stepwise = TRUE, rvgm, GLS = FALSE, steps = 100, subsample, subsample.reg, ...){
 
   ## parent call:
   parent_call <- as.list(substitute(list(...)))[-1]
@@ -33,7 +33,7 @@ setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.f
   }
 
   ## check if the method exists:
-  if(length(method)>1){ stop("'method' argument contains multiple options") }
+  if(length(method)>1){ method <- method[[1]] }
   if(!any(method %in% list("GLM", "rpart", "randomForest", "quantregForest", "lme"))){ stop(paste(method, "method not available.")) }
   
   ## subsample regression if necessary:
@@ -47,13 +47,13 @@ setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.f
   rmatrix.s <- rmatrix[s,]
    
   ## 1. REGRESSION MODEL FITTING
-  if(method == "lme" | !missing(random)){
+  if(method == "lme"){
     message("Fitting a Mixel-effect linear model...")
     if(requireNamespace("nlme", quietly = TRUE)){
       if(!missing(subsample.reg)){ message("Ignoring 'subsample.reg' argument...") }
       ## check if the random component is defined:
-      if(!missing(random)){
-        rgm <- nlme::lme(formulaString, random=random, data=rmatrix, na.action=na.omit)
+      if(any(names(parent_call) %in% "random")){
+        rgm <- nlme::lme(formulaString, random=eval(parent_call[["random"]]), data=rmatrix, na.action=na.omit)
       } else {
         rgm <- nlme::lme(formulaString, data=rmatrix, na.action=na.omit)
       }
@@ -71,14 +71,14 @@ setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.f
       if(!dimensions == "2D"){ stop("Fitting of the models using the GLS option possible with '2D' data only") }
       message("Fitting a LM using Generalized Least Squares...")
       if(requireNamespace("nlme", quietly = TRUE)){
-        rgm <- nlme::gls(formulaString, rmatrix.s, correlation=corExp(nugget=TRUE), na.action=na.omit)
+        rgm <- nlme::gls(formulaString, rmatrix.s, correlation=nlme::corExp(nugget=TRUE), na.action=na.omit)
         ## extract the residuals:
         rmatrix[,paste(tv, "residual", sep=".")] <- rmatrix[,tv] - predict(rgm, rmatrix)
       } else {
       stop("Package 'nlme' not available")
       }
     } else {
-      if(!missing(subsample.reg)){ message("Ignoring 'subsample.reg' argument...") }
+      #if(!missing(subsample.reg)){ message("Ignoring 'subsample.reg' argument...") }
       if(all(c("family","link") %in% names(fit.family))){
         if(fit.family$family=="gaussian"&fit.family$link=="identity"){
           message("Fitting a linear model...")

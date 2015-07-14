@@ -7,8 +7,8 @@
 
 ################## prediction #########################
 ## predict values using a RK model:
-predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30, debug.level = -1, predict.method = c("RK", "KED")[1], nfold = 5, verbose = FALSE, nsim = 0, mask.extra = TRUE, block, zmin = -Inf, zmax = Inf, subsample = length(object@sp), coarsening.factor = 1, vgmmodel = object@vgmModel, subset.observations = !is.na(object@sp@coords[,1]), betas = c(0,1), extend = .5, ...){
-
+predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30, debug.level = -1, predict.method = c("RK", "KED"), nfold = 5, verbose = FALSE, nsim = 0, mask.extra = TRUE, block, zmin = -Inf, zmax = Inf, subsample = length(object@sp), coarsening.factor = 1, vgmmodel = object@vgmModel, subset.observations = !is.na(object@sp@coords[,1]), betas = c(0,1), extend = .5, ...){
+  predict.method <- predict.method[1]
   if(nsim<0|!is.numeric(nsim)){
     stop("To invoke conditional simulations set 'nsim' argument to a positive integer number")
   }
@@ -463,18 +463,19 @@ setMethod("predict", signature(object = "gstatModel"), predict.gstatModel)
 
 
 ## predict multiple models independently:
-predict.gstatModelList <- function(object, predictionLocations, nmin = 10, nmax = 30, debug.level = -1, predict.method = c("RK", "KED")[1], nfold = 5, verbose = FALSE, nsim = 0, mask.extra = TRUE, block = predictionLocations@grid@cellsize, zmin = -Inf, zmax = Inf, subsample = length(object@sp), ...){
+predict.gstatModelList <- function(object, predictionLocations, nmin = 10, nmax = 30, debug.level = -1, predict.method = c("RK", "KED"), nfold = 5, verbose = FALSE, nsim = 0, mask.extra = TRUE, block = predictionLocations@grid@cellsize, zmin = -Inf, zmax = Inf, subsample = length(object@sp), ...){
 
-    if(is.list(predictionLocations)&!length(object)==length(predictionLocations)){
-      stop("'object' and 'predictionLocations' lists of same size expected")
-    }
-       
-    rkp.l <- list(NULL)
-    for(l in 1:length(object)){
-      rkp.l[[l]] <- predict(object[[l]], predictionLocations[[l]], nmin = nmin, nmax = nmax, debug.level = debug.level, predict.method = predict.method, nfold = nfold, verbose = verbose, nsim = nsim, mask.extra = mask.extra, block = block, zmin = zmin, zmax = zmax, subsample = subsample, ...)
-    }
-    
-    return(rkp.l)
+  predict.method <- predict.method[1]
+  if(is.list(predictionLocations)&!length(object)==length(predictionLocations)){
+    stop("'object' and 'predictionLocations' lists of same size expected")
+  }
+     
+  rkp.l <- list(NULL)
+  for(l in 1:length(object)){
+    rkp.l[[l]] <- predict(object[[l]], predictionLocations[[l]], nmin = nmin, nmax = nmax, debug.level = debug.level, predict.method = predict.method, nfold = nfold, verbose = verbose, nsim = nsim, mask.extra = mask.extra, block = block, zmin = zmin, zmax = zmax, subsample = subsample, ...)
+  }
+  
+  return(rkp.l)
 }
 
 setMethod("predict", signature(object = "list"), predict.gstatModelList)

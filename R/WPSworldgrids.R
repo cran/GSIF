@@ -56,7 +56,7 @@ setMethod("over", signature(x = "WPS", y = "SpatialPoints"),
     for(i in 1:nrow(y@coords)){
       ret <- paste("[x=", y@coords[i,1], ";y=", y@coords[i,2], ";inRastername=", x@inRastername,"]", sep="")
       uri = paste(paste(x@server$URI, "?", sep=""), paste(x@server$service, x@server$version, "request=execute", "identifier=sampler_local1pt_nogml", paste("datainputs=", ret, sep=""), sep="&"), sep="")
-      ret <- XML::xmlTreeParse(getURL(uri), useInternalNodes = TRUE)
+      ret <- XML::xmlTreeParse(RCurl::getURL(uri), useInternalNodes = TRUE)
       nx <- unlist(XML::xmlToList(ret, addAttributes=FALSE))
         if(any(nx %in% "OutData")){
         out[i] <- XML::xmlValue(ret[["//wps:LiteralData"]])
@@ -77,8 +77,8 @@ setMethod("subset", signature(x = "WPS"), function(x, bbox, import = TRUE){
     # check that bbox is fine:
     if(nrow(bbox)==2&ncol(bbox)==2&bbox[1,2]<180&bbox[2,2]<90&bbox[1,2]>bbox[1,1]&bbox[1,1]>-180&bbox[2,1]>-90&bbox[2,2]>bbox[2,1]){
       ret <- paste('[bbox=', bbox[1,1], ',', bbox[2,1], ',', bbox[1,2], ',', bbox[2,2], ';inRastername=', x@inRastername, ']', sep="")
-      uri = paste(paste(x@server$URI, "?", sep=""), paste(x@server$service, x@server$version, "request=execute", "identifier=subset", paste("datainputs=", ret, sep=""), "responsedocument=OutData=@asreference=true", sep="&"), sep="")
-      ret <- XML::xmlTreeParse(getURL(uri), useInternalNodes = TRUE)  
+      uri <- paste(paste(x@server$URI, "?", sep=""), paste(x@server$service, x@server$version, "request=execute", "identifier=subset", paste("datainputs=", ret, sep=""), "responsedocument=OutData=@asreference=true", sep="&"), sep="")
+      ret <- XML::xmlTreeParse(RCurl::getURL(uri), useInternalNodes = TRUE)  
       nx <- unlist(XML::xmlToList(ret, addAttributes=FALSE))
       if(any(nx %in% "Output Subset data")){
          objectname <- XML::xmlAttrs(ret[["//wps:Reference"]], FALSE, FALSE)
