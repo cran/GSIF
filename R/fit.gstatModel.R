@@ -6,7 +6,7 @@
 
 
 ## Fit a 'simple' 2D RK model:
-setMethod("fit.gstatModel", signature(observations = "SpatialPointsDataFrame", formulaString = "formula", covariates = "SpatialPixelsDataFrame"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest"), dimensions = list("2D", "3D", "2D+T", "3D+T"), fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
+setMethod("fit.gstatModel", signature(observations = "SpatialPointsDataFrame", formulaString = "formula", covariates = "SpatialPixelsDataFrame"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest", "xgboost", "ranger"), dimensions = list("2D", "3D", "2D+T", "3D+T"), fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
  
   method <- method[[1]]
   dimensions <- dimensions[[1]]
@@ -53,7 +53,7 @@ setMethod("fit.gstatModel", signature(observations = "SpatialPointsDataFrame", f
 
 
 ## Fit a RK model using geosamples class:
-setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString = "formula", covariates = "SpatialPixelsDataFrame"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest"), dimensions = list("2D", "3D", "2D+T", "3D+T"), fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
+setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString = "formula", covariates = "SpatialPixelsDataFrame"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest", "xgboost", "ranger"), dimensions = list("2D", "3D", "2D+T", "3D+T"), fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
   
   method <- method[[1]]
   dimensions <- dimensions[[2]]
@@ -92,7 +92,7 @@ setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString
 
 
 ## Fit a RK model to a list of covariates / formulas:
-setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString = "list", covariates = "list"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest"), dimensions = list("2D", "3D", "2D+T", "3D+T"), fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
+setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString = "list", covariates = "list"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest", "xgboost", "ranger"), dimensions = list("2D", "3D", "2D+T", "3D+T"), fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
 
   method <- method[[1]]
   dimensions <- dimensions[[2]]
@@ -110,9 +110,9 @@ setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString
 
 
 ## Fit a RK model and return an object of class "gstatModel" for a list of multiscale grids:
-setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString = "formula", covariates = "list"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest"), dimensions = list("2D", "3D", "2D+T", "3D+T"), fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
+setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString = "formula", covariates = "list"), function(observations, formulaString, covariates, method = list("GLM", "rpart", "randomForest", "quantregForest", "xgboost", "ranger"), dimensions = list("2D", "3D", "2D+T", "3D+T"), fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, ...){
 
-  method <- method[[1]]
+  method <- method[[1]]                                                              
   dimensions <- dimensions[[2]]
   if(!any(sapply(covariates, class)=="SpatialPixelsDataFrame")){
     stop("List of covariates of class 'SpatialPixelsDataFrame' expected")
@@ -173,26 +173,29 @@ setMethod("fit.gstatModel", signature(observations = "geosamples", formulaString
 "plot.gstatModel" <- function(x, ...){
   dev.new(width=9, height=5)
   par(mfrow=c(1,2))
-  if(any(class(x@regModel) == "lm")|any(class(x@regModel)=="quantregForest")|any(class(x@regModel)=="randomForest")|any(class(x@regModel)=="rpart")){
+  if(any(class(x@regModel) == "lm")|any(class(x@regModel)=="quantregForest")|any(class(x@regModel)=="randomForest")|any(class(x@regModel)=="rpart")|any(class(x@regModel)=="ranger")|any(class(x@regModel)=="xgboost")){
     if(any(class(x@regModel) == "lm")){
-      plot(y=fitted(x@regModel), x=x@regModel$y, pch=19, col="black", xlab='observed', ylab='predicted', main='Goodness of fit', asp=1, xlim=range(x@regModel$y), ylim=range(x@regModel$y), ...)
+      plot(y=fitted(x@regModel), x=x@regModel$y, col = alpha("grey18", 0.6), pch=16, xlab='observed', ylab='predicted', main='Goodness of fit', asp=1, xlim=range(x@regModel$y), ylim=range(x@regModel$y), ...)
     }
     if(class(x@regModel)[1]=="quantregForest"){
-      plot(y=predict(x@regModel, quantiles=.5), x=x@regModel$y, pch=19, col="black", xlab='observed', ylab='predicted', main='Goodness of fit', asp=1, xlim=range(x@regModel$y), ylim=range(x@regModel$y), ...)
+      plot(y=x@regModel$predicted, x=x@regModel$y, col = alpha("grey18", 0.6), pch=16, xlab='observed', ylab='predicted', main='Goodness of fit', asp=1, xlim=range(x@regModel$y), ylim=range(x@regModel$y), ...)
     } else {
-      if(any(class(x@regModel)=="randomForest")|any(class(x@regModel)=="rpart")){
-        plot(y=predict(x@regModel), x=x@regModel$y, pch=19, col="black", xlab='observed', ylab='predicted', main='Goodness of fit', asp=1, xlim=range(x@regModel$y), ylim=range(x@regModel$y), ...)
+      if(any(class(x@regModel)=="randomForest")|any(class(x@regModel)=="rpart")|any(class(x@regModel)=="xgboost")){
+        plot(y=predict(x@regModel), x=x@regModel$y, col = alpha("grey18", 0.6), pch=16, xlab='observed', ylab='predicted', main='Goodness of fit', asp=1, xlim=range(x@regModel$y), ylim=range(x@regModel$y), ...)
+      }
+      if(any(class(x@regModel)=="ranger")){
+        plot(y=predict(x@regModel, x@sp@data)$predictions, x=x@sp@data[,1], col = alpha("grey18", 0.6), pch=16, xlab='observed', ylab='predicted', main='Goodness of fit', asp=1, xlim=range(x@sp@data[,1]), ylim=range(x@sp@data[,1]), ...)
       }
     }
   } else {   
     pred <- fitted(x@regModel)
     obs <- pred+resid(x@regModel)
-    plot(y=pred, x=obs, pch=19, col="black", xlab='observed', ylab='predicted', main='Goodness of fit', asp=1, xlim=range(obs), ylim=range(obs), ...)
+    plot(y=pred, x=obs, col = alpha("grey18", 0.6), pch=16, xlab='observed', ylab='predicted', main='Goodness of fit', asp=1, xlim=range(obs), ylim=range(obs), ...)
   }
   abline(a=0, b=1, lwd=2, lty=2, col="green")
   vgmmodel <- x@vgmModel
   class(vgmmodel) <- c("variogramModel","data.frame")
-  plot(x=x@svgmModel$dist, y=x@svgmModel$gamma, pch="+", col = "black", xlab='distance', cex=1.4, ylab='gamma', ylim = c(0, max(x@svgmModel$gamma)), main='Residual variogram')
+  plot(x=x@svgmModel$dist, y=x@svgmModel$gamma, pch="+", col = "grey18", xlab='distance', cex=1.1, ylab='gamma', ylim = c(0, max(x@svgmModel$gamma)), main='Residual variogram')
   vline <- variogramLine(vgmmodel, maxdist=max(x@svgmModel$dist), n=length(x@svgmModel$dist))
   lines(x=vline$dist, y=vline$gamma, col="green", lwd=2)
 }

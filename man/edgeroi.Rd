@@ -20,8 +20,8 @@ Horizons table contains the following columns:
   \item{\code{SOURCEID}}{factor; unique identifier used in the NatSoil DB}
   \item{\code{LSQINT}}{integer; a layer sequence number 1 to N}
   \item{\code{HZDUSD}}{factor; horizon designation (primary letter)}
-  \item{\code{UHDICM}}{numeric; lower horizon depth from the surface in cm}
-  \item{\code{LHDICM}}{numeric; upper horizon depth from the surface in cm}
+  \item{\code{UHDICM}}{numeric; upper horizon depth from the surface in cm}
+  \item{\code{LHDICM}}{numeric; lower horizon depth from the surface in cm}
   \item{\code{CLYPPT}}{numeric; weight percentage of the clay particles (<0.0002 mm)}
   \item{\code{SNDPPT}}{numeric; weight percentage of the silt particles (0.0002--0.05 mm)}
   \item{\code{SLTPPT}}{numeric; weight percentage of the sand particles (0.05--2 mm)}

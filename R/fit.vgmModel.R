@@ -116,7 +116,9 @@ setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.f
     if(missing(ivgm)){
       if(dimensions == "2D"|dimensions == "3D"){
         ## BK: since most variograms have a nugget effect, set the initial nugget equal to the initial partial sill:
-        ivgm <- gstat::vgm(nugget=var(rmatrix@data[,tv])/5, model=vgmFun, range=Range, psill=var(rmatrix@data[,tv])*4/5, anis = anis)
+        nugget <- var(rmatrix@data[,tv])/5
+        psill <- var(rmatrix@data[,tv])*4/5
+        ivgm <- gstat::vgm(nugget=nugget, model=vgmFun, range=Range, psill=psill, anis=anis)
         #ivgm <- vgm(nugget=0, model=vgmFun, range=Range, psill=var(rmatrix@data[,tv]), anis = anis)
       }
     }
@@ -129,6 +131,7 @@ setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.f
     try( rvgm <- gstat::fit.variogram(svgm, model=ivgm, ...) )     
     ## BK: the code below does not work for 'singular model' warnings, only when the function does not fit at all
     if(class(.Last.value)[1]=="try-error"){
+      ## try one more time:
       try( rvgm <- gstat::fit.variogram(gstat::variogram(formulaString, rmatrix, cutoff=cutoff), model=ivgm, fit.ranges = FALSE, ...) )
       if(class(.Last.value)[1]=="try-error"){    
         warning("Variogram model could not be fitted.") 

@@ -8,8 +8,8 @@
 makeTiles <- function(bb, block.x, block.y, overlap.percent, limit.bbox, columns = NULL, rows = NULL){
   
   ## number of tiles:
-  xn = ceiling(diff(bb[1,])/block.x)
-  yn = ceiling(diff(bb[2,])/block.y)
+  xn = ceiling(signif(diff(bb[1,]),5)/block.x)
+  yn = ceiling(signif(diff(bb[2,]),5)/block.y)
 
   # number of tiles:
   message(paste("Generating", xn*yn, "tiles..."))  
@@ -173,8 +173,7 @@ setMethod("tile", signature(x = "SpatialPixelsDataFrame"), .subsetTiles)
       } else {
         outname <- paste(normalizeFilename(deparse(substitute(x, env = parent.frame()))), j, sep="_")
       }
-      layername <- strsplit(outname, "\\\\")[[1]]
-      layername = layername[length(layername)]
+      layername <- basename(sub("[.][^.]*$", "", outname, perl=TRUE))
       
       if(class(x)=="SpatialPolygonsDataFrame"){
         try(system(paste(program, '-where \"OGR_GEOMETRY=\'Polygon\'\" -f \"ESRI Shapefile\"', set.file.extension(outname, ".shp"), set.file.extension(tf, ".shp"), '-clipsrc',  y[j,1], y[j,2], y[j,3], y[j,4], '-skipfailures'), show.output.on.console = show.output.on.console))

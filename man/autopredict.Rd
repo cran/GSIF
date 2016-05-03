@@ -14,12 +14,12 @@
   \item{\dots}{other optional arguments that can be passed to \code{fit.gstatModel} or \code{spmultinom}}
 }
 \author{ Tomislav Hengl}
-\seealso{ \code{\link{fit.gstatModel}}, \code{\link{spmultinom}} }
+\seealso{ \code{\link{fit.gstatModel}} }
 \examples{
 ## Ebergotzen data:
 library(sp)
 library(gstat)
-library(randomForest)
+library(ranger)
 library(plotKML)
 
 ## load input data:

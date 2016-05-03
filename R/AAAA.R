@@ -127,7 +127,7 @@ setClass(Class="FAO.SoilProfileCollection",
 
 ## A new class for models fitted in gstat:
 setClass("gstatModel", slots = c(regModel = "ANY", vgmModel = "data.frame", svgmModel = "data.frame", sp = "SpatialPointsDataFrame"), validity = function(object) {
-    ml = c("lm", "glm", "rpart", "randomForest", "lme", "gls", "zeroinfl")
+    ml = c("lm", "glm", "rpart", "randomForest", "lme", "gls", "zeroinfl", "train", "ranger")
     if(!any(class(object@regModel) %in% ml))
       return(paste("Only models of type", paste(ml, collapse=", "), "are accepted"))
     cn = c("model", "psill", "range", "kappa", "ang1", "ang2", "ang3", "anis1", "anis2")
@@ -136,7 +136,7 @@ setClass("gstatModel", slots = c(regModel = "ANY", vgmModel = "data.frame", svgm
     if(!all(cn %in% names(object@vgmModel))){
       x <- cn[!(cn %in% names(object@vgmModel))]
       return(paste("Missing column names:", paste(x, collapse=", ")))
-      }
+    }
 })
 
 ### GSIF soil property maps class:
@@ -399,6 +399,10 @@ if (!isGeneric("MaxEnt")){
 }
 if (!isGeneric("sample.grid")){
   setGeneric("sample.grid", function(obj, cell.size, n, ...){standardGeneric("sample.grid")})
+}
+
+if(!isGeneric("buffer.dist")){
+  setGeneric("buffer.dist", function(observations, predictionDomain, ...){standardGeneric("buffer.dist")})
 }
 
 # end of script;

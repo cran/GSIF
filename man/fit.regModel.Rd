@@ -5,7 +5,8 @@
 \description{Fits a regression or a trend model (e.g. a GLM) and, if not available, a variogram for the response residuals using the default settings.}
 \usage{
 \S4method{fit.regModel}{formula,data.frame,SpatialPixelsDataFrame,character}(formulaString, rmatrix, predictionDomain, 
-      method = list("GLM", "rpart", "randomForest", "quantregForest", "lme"), 
+      method = list("GLM", "rpart", "randomForest", "quantregForest", "lme",
+       "xgboost", "ranger"), 
       dimensions = NULL, fit.family = gaussian(), stepwise = TRUE, rvgm, 
       GLS = FALSE, steps, subsample, subsample.reg, \dots)
 }
@@ -35,6 +36,9 @@ library(nlme)
 library(gstat)
 library(randomForest)
 library(quantregForest)
+library(xgboost)
+library(caret)
+library(scales)
 
 ## load the Meuse data set:
 demo(meuse, echo=FALSE)
@@ -74,4 +78,12 @@ plot(m4b)
 m5 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
      method="quantregForest")
 plot(m5)
+## ranger
+m6 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
+     method="ranger")
+plot(m6)
+## XGBoost
+m7 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
+     method="xgboost")
+plot(m7)
 }

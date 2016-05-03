@@ -11,22 +11,26 @@
 \description{Tries to automatically fit a 2D or 3D regression-kriging model for a given set of points (object of type \code{"SpatialPointsDataFrame"} or \code{"geosamples"}) and covariates (object of type \code{"SpatialPixelsDataFrame"}). It first fits a regression model (e.g. Generalized Linear Model, regression tree, random forest model or similar) following the \code{formulaString}, then fits variogram for residuals usign the \code{fit.variogram} method from the \href{http://www.gstat.org}{gstat} package. Creates an output object of class \code{\link{gstatModel-class}}.}
 \usage{ 
 \S4method{fit.gstatModel}{SpatialPointsDataFrame,formula,SpatialPixelsDataFrame}(observations, formulaString, covariates, 
-     method = list("GLM", "rpart", "randomForest", "quantregForest"), 
+     method = list("GLM", "rpart", "randomForest", "quantregForest",
+      "xgboost", "ranger"), 
      dimensions = list("2D", "3D", "2D+T", "3D+T"),
      fit.family = gaussian(), stepwise = TRUE, vgmFun = "Exp", 
      subsample = 5000, subsample.reg = 10000, \dots)
 \S4method{fit.gstatModel}{geosamples,formula,SpatialPixelsDataFrame}(observations, formulaString, covariates, 
-     method = list("GLM", "rpart", "randomForest", "quantregForest"), 
+     method = list("GLM", "rpart", "randomForest", "quantregForest", 
+     "xgboost", "ranger"), 
      dimensions = list("2D", "3D", "2D+T", "3D+T"),
      fit.family = gaussian(), stepwise = TRUE, 
      vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, \dots)
 \S4method{fit.gstatModel}{geosamples,formula,list}(observations, formulaString, covariates, 
-     method = list("GLM", "rpart", "randomForest", "quantregForest"), 
+     method = list("GLM", "rpart", "randomForest", "quantregForest", 
+     "xgboost", "ranger"), 
      dimensions = list("2D", "3D", "2D+T", "3D+T"),
      fit.family = gaussian(), stepwise = TRUE, 
      vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, \dots)
 \S4method{fit.gstatModel}{geosamples,list,list}(observations, formulaString, covariates, 
-     method = list("GLM", "rpart", "randomForest", "quantregForest"), 
+     method = list("GLM", "rpart", "randomForest", "quantregForest",
+      "xgboost", "ranger"), 
      dimensions = list("2D", "3D", "2D+T", "3D+T"),
      fit.family = gaussian(), stepwise = TRUE, 
      vgmFun = "Exp", subsample = 5000, subsample.reg = 10000, \dots)
@@ -56,6 +60,7 @@
 }
 \references{
 \itemize{
+\item Meinshausen, N. (2006). Quantile regression forests. The Journal of Machine Learning Research, 7, 983-999.
 \item chapter 8 ``Interpolation and Geostatistics'' in Bivand, R., Pebesma, E., Rubio, V., (2008) \href{http://asdar-book.org/}{Applied Spatial Data Analysis with R}. Use R Series, Springer, Heidelberg, pp. 378.
 \item Hengl, T. (2009) \href{http://spatial-analyst.net/book/}{A Practical Guide to Geostatistical Mapping}, 2nd Edt. University of Amsterdam, www.lulu.com, 291 p.
 }

@@ -6,7 +6,7 @@
 
 
 ## Fit a GLM to spatial data:
-setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.frame", predictionDomain = "SpatialPixelsDataFrame", method = "character"), function(formulaString, rmatrix, predictionDomain, method = list("GLM", "rpart", "randomForest", "quantregForest", "lme"), dimensions = NULL, fit.family = gaussian(), stepwise = TRUE, rvgm, GLS = FALSE, steps = 100, subsample, subsample.reg, ...){
+setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.frame", predictionDomain = "SpatialPixelsDataFrame", method = "character"), function(formulaString, rmatrix, predictionDomain, method = list("GLM", "rpart", "randomForest", "quantregForest", "lme", "xgboost", "ranger"), dimensions = NULL, fit.family = gaussian(), stepwise = TRUE, rvgm, GLS = FALSE, steps = 100, subsample, subsample.reg, ...){
 
   ## parent call:
   parent_call <- as.list(substitute(list(...)))[-1]
@@ -34,7 +34,7 @@ setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.f
 
   ## check if the method exists:
   if(length(method)>1){ method <- method[[1]] }
-  if(!any(method %in% list("GLM", "rpart", "randomForest", "quantregForest", "lme"))){ stop(paste(method, "method not available.")) }
+  if(!any(method %in% list("GLM", "rpart", "randomForest", "quantregForest", "lme", "xgboost", "ranger"))){ stop(paste(method, "method not available.")) }
   
   ## subsample regression if necessary:
   s <- 1:nrow(rmatrix)
@@ -131,43 +131,80 @@ setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.f
     }
   }
   
-  if(method == "randomForest"|method == "quantregForest"){
-    if(requireNamespace("randomForest", quietly = TRUE)){
+  if(method == "randomForest"|method == "quantregForest"|method == "ranger"|method == "xgboost"){
+    if(requireNamespace("randomForest", quietly = TRUE)&requireNamespace("ranger", quietly = TRUE)){
       ## fit/filter the regression model:
-      message("Fitting a randomForest model...")
       ## NA's not permitted and need to be filtered out:
       f <- stats::complete.cases(rmatrix.s[,all.vars(formulaString)])
       rmatrix.s <- rmatrix.s[f,]    
-      if(method == "randomForest"){
+      if(method == "randomForest"|method == "ranger"){
+        message("Fitting a randomForest model...")
         if(any(names(parent_call) %in% "mtry")){
           mtry <- eval(parent_call[["mtry"]])
-          rgm <- randomForest::randomForest(formulaString, data=rmatrix.s, importance=TRUE, na.action=na.omit, mtry=mtry)
+          if(method == "randomForest"){
+            rgm <- randomForest::randomForest(formulaString, data=rmatrix.s, importance=TRUE, na.action=na.omit, mtry=mtry)
+          }
+          if(method == "ranger"){
+            rgm <- ranger::ranger(formulaString, data=rmatrix.s, importance="impurity", write.forest=TRUE, mtry=mtry)
+          }
         } else {
-          rgm <- randomForest::randomForest(formulaString, data=rmatrix.s, importance=TRUE, na.action=na.omit)
+          if(method == "randomForest"){
+            rgm <- randomForest::randomForest(formulaString, data=rmatrix.s, importance=TRUE, na.action=na.omit)
+          }
+          if(method == "ranger"){
+            rgm <- ranger::ranger(formulaString, data=rmatrix.s, importance="impurity", write.forest=TRUE)
+          }
         }
       } else {
-        ## TH: the quantreg package developed by Nicolai Meinshausen <meinshausen@stats.ox.ac.uk> is slower but more flexible      
-        if(requireNamespace("quantregForest", quietly = TRUE)){
-          rgm <- quantregForest::quantregForest(y=eval(formulaString[[2]], rmatrix.s), x=rmatrix.s[,all.vars(formulaString)[-1]])
-          attr(rgm$y, "name") <- tv
-        }  
+        if(method == "xgboost"){
+           if(requireNamespace("xgboost", quietly = TRUE)&requireNamespace("caret", quietly = TRUE)){
+             message("Fitting a Gradient Boosting model using the 'xgboost' package...")
+             ctrl <- caret::trainControl(method="cv", number=2, repeats=1)
+             gb.tuneGrid <- expand.grid(eta=0.3, nrounds=c(50,100), max_depth=2:3, gamma=0, colsample_bytree=0.8, min_child_weight=1)
+             rgm <- caret::train(formulaString, data=rmatrix.s, method="xgbTree", trControl=ctrl, tuneGrid=gb.tuneGrid)
+           } else {
+             stop("Packages 'caret', 'xgboost' not available")
+           }
+        }
+        if(method == "quantregForest"){ 
+          ## TH: the quantreg package developed by Nicolai Meinshausen <meinshausen@stats.ox.ac.uk> is more computationally demanding, but more flexible      
+          if(requireNamespace("quantregForest", quietly = TRUE)){
+            rgm <- quantregForest::quantregForest(y=eval(formulaString[[2]], rmatrix.s), x=rmatrix.s[,all.vars(formulaString)[-1]], importance=TRUE)
+            attr(rgm$y, "name") <- tv
+          } else {
+            stop("Package 'quantregForest' not available")
+          }
+        }
       }
     } else {
-      stop("Package 'randomForest' not available")
+      stop("Packages 'randomForest', 'ranger' not available")
     }
   }
   
   ## Extract residuals:
   if(method == "quantregForest"){
     ## breaks if there are incomplete obs:
-    f0 <- which(stats::complete.cases(rmatrix[,all.vars(formulaString)]))
-    rmatrix[f0,paste(tv, "residual", sep=".")] <- rmatrix[f0,tv] - predict(rgm, newdata=rmatrix[f0,attr(rgm$forest$ncat, "names")], quantiles=.5)
+    rmatrix[f,paste(tv, "residual", sep=".")] <- rmatrix[f,tv] - predict(rgm, newdata=rmatrix[f,attr(rgm$forest$ncat, "names")], what=.5)
   } 
   if(method == "randomForest"|method == "rpart"){
     rmatrix[,paste(tv, "residual", sep=".")] <- rmatrix[,tv] - predict(rgm, newdata=rmatrix, na.action = na.pass)
   }
   
-  ## TH: here we will add more regression models...
+  if(method == "ranger"){
+    if(requireNamespace("ranger", quietly = TRUE)){
+      rmatrix[f,paste(tv, "residual", sep=".")] <- rmatrix[f,tv] - predict(rgm, rmatrix[f,])$predictions
+    } else {
+      stop("Package 'ranger' not available")
+    }
+  }
+  if(method == "xgboost"){
+    if(requireNamespace("xgboost", quietly = TRUE)){
+      rmatrix[,paste(tv, "residual", sep=".")] <- rmatrix[,tv] - predict(rgm, newdata=rmatrix, na.action = na.pass)
+    } else {
+      stop("Package 'xgboost' not available")
+    }
+  }
+  ## TH: add more regression models here...
   
   ## test the normality of residuals:
   if(length(rmatrix[,paste(tv, "residual", sep=".")])>4999){

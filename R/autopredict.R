@@ -22,7 +22,7 @@ setMethod("autopredict", signature(target = "SpatialPointsDataFrame", covariates
   }
   if(is.numeric(target@data[,1])){
     if(!any(names(parent_call) %in% "method")){
-      method <- "randomForest"
+      method <- "ranger"
     }
     ## TH: TO-DO add ensemble predictions
     m <- fit.gstatModel(target, fm, covariates@predicted, method=method, ...)

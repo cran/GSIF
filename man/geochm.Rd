@@ -36,11 +36,11 @@ Data frame; contains the following columns:
   \item{\code{S_TOT}}{numeric; total sulfur (weight percentage) by combustion}
 }
 }
-\author{ National Geochemical Survey database is maintaned by the USGS National Geochemical Survey Team (contact: Peter Schweitzer). This subset has been prepared for the purpose of testing various geostatistical mapping algoriths by Tomislav Hengl (tom.hengl@wur.nl).}
+\author{ National Geochemical Survey database is maintaned by the USGS National Geochemical Survey Team (contact: Peter Schweitzer). This subset has been prepared for the purpose of testing various geostatistical mapping algoriths by Tomislav Hengl (tom.hengl@isric.org).}
 \references{
 \itemize{
-\item The National Geochemical Survey Team, (2008) \href{http://tin.er.usgs.gov/geochem/doc/home.htm}{The National Geochemical Survey: database and documentation}. U.S. Geological Survey Open-File Report 2004-1001, U.S. Geological Survey, Reston VA.
-\item National Geochemical Survey database (\url{http://tin.er.usgs.gov/geochem/})
+\item The National Geochemical Survey Team, (2008) \href{http://mrdata.usgs.gov/geochem/doc/home.htm}{The National Geochemical Survey: database and documentation}. U.S. Geological Survey Open-File Report 2004-1001, U.S. Geological Survey, Reston VA.
+\item National Geochemical Survey database (\url{http://mrdata.usgs.gov/geochem/})
 }
 }
 \note{Negative values of the heavy metal concetrations indicate a determination that is below the limit of detection for the analytic method used. The magnitude of the negative number indicates the detection limit. For example, -10 ppm means the result should be regarded as < 10 ppm.

@@ -48,25 +48,35 @@ setMethod('as.data.frame', signature(x = "SoilProfileCollection"), .as.data.fram
 
 
 ## Reverse function -- extract horizons from a data.frame:
-getHorizons <- function(x, idcol, sel, pattern=paste("_", LETTERS[1:15], sep="")){
+getHorizons <- function(x, idcol, sel, pattern=paste("_", LETTERS[1:15], sep=""), reverse=FALSE){
   if(!length(unique(sel))==length(sel)){
     stop("'sel' argument must contain unique column names")
   }
   ## check that all horizon names from selection follow the pattern:
   t.lst <- expand.grid(sel, pattern, KEEP.OUT.ATTRS=FALSE, stringsAsFactors=FALSE)
-  nn <- paste(t.lst[,1], t.lst[,2], sep="")
+  if(reverse==TRUE){
+    nn <- paste(t.lst[,2], t.lst[,1], sep="")
+  } else {
+    nn <- paste(t.lst[,1], t.lst[,2], sep="")
+  }
   h.lst <- as.vector(unlist(sapply(sel, FUN=function(l){grep(l, names(x))})))
-  if(!all(names(x)[h.lst] %in% nn)){
-    stop("Some column names do not follow the 'pattern'. Consider renaming.")
+  sel.t <- names(x)[h.lst] %in% nn
+  if(!all(sel.t)){
+    warning("Some column names do not follow the 'pattern'. Consider renaming.")
   }
   ## horizon list:
   h.lst <- lapply(sel, FUN=function(l){grep(l, names(x))})
+  h.lst <- h.lst[unlist(lapply(h.lst, length) != 0)]
   mm <- max(sapply(h.lst, length))
   m.lst <- rep(list(data.frame(x[,idcol])), mm)
   for(j in 1:mm){
     names(m.lst[[j]]) <- idcol
     for(i in sel){ 
-      csel <- grep(paste(i, pattern[j], sep=""), names(x))
+      if(reverse==TRUE){
+        csel <- grep(paste(pattern[j], i, sep=""), names(x))
+      } else {
+        csel <- grep(paste(i, pattern[j], sep=""), names(x))
+      }
       if(length(csel)==1){
         m.lst[[j]][,i] <- x[,csel]
       }

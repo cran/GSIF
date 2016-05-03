@@ -1,8 +1,8 @@
-# Purpose        : resampling with FWTools;
+# Purpose        : resampling with GDAL;
 # Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
 # Contributions  : ; 
 # Dev Status     : Pre-Alpha
-# Note           : FWTools is NOT an R package!;
+# Note           : ;
 
 .programPath <- function(path, utility){
   if(missing(path)){

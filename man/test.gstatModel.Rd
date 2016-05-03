@@ -30,6 +30,7 @@
 \examples{
 # 2D model:
 library(sp)
+library(maptools)
 ## load the Meuse data set:
 demo(meuse, echo=FALSE)
 ## model diagnostics:
