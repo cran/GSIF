@@ -221,6 +221,3 @@ setMethod("tile", signature(x = "RasterLayer"), function(x, y, block.x, tmp.file
   return(x.lst)    
     
 })
-
-
-# end of script;

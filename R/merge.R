@@ -89,21 +89,3 @@ setMethod("merge", signature(x = "SpatialPredictions", y = "SpatialPredictions")
   
 	return(out[cname[1]])
 })
-
-
-
-## merge realizations at multiple scales:
-# setMethod("merge", signature(x = "RasterBrickSimulations", y = "RasterBrickSimulations"), function(x, y, ..., RMSE.l = NULL){
-#  # weights need to be provided by the user!
-#
-#  # check inputs:
-#  r <- list(x, y, ...)
-#	if (length(r) < 2) {
-#		  stop("merge needs at least 2 'RasterBrickSimulations' objects")
-#	}
-#
-#  # resample all grids to the finest resolution:  
-#
-# })
-
-# end of script;

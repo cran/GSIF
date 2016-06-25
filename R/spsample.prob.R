@@ -42,5 +42,7 @@ setMethod("spsample.prob", signature(observations = "SpatialPoints", covariates 
      
     out <- list(prob=covariates["iprob"], observations=as(observations, "SpatialPoints"), density=dmap, maxlike=ml.p, maxlikeFit=ml[-which(names(ml)=="rasters")])
     return(out) 
+  }  else {
+    stop("Missing packages 'maxlike' and/or 'spatstat'")
   }
 })

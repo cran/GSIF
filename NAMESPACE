@@ -11,7 +11,7 @@ importFrom("dismo", maxent, kfold, randomPoints, evaluate)
 importFrom("RSAGA", set.file.extension, rsaga.geoprocessor, rsaga.env)
 importFrom("rgdal", readGDAL, writeGDAL, GDALinfo, ogrInfo, CRSargs, readOGR, writeOGR, showWKT, make_EPSG)
 importFrom("gstat", fit.variogram, vgm, krige, variogram, variogramLine)
-importFrom("plotKML", plotKML, plotKML.env, check_projection, parse_proj4, vect2rast, reproject, normalizeFilename, plotKML.opts)
+importFrom("plotKML", plotKML, plotKML.env, check_projection, parse_proj4, vect2rast, reproject, normalizeFilename, plotKML.opts, kml_layer, kml_View, kml_close, kml_open, R_pal, SAGA_pal)
 importFrom("plyr", rbind.fill, is.formula, join)
 importFrom("scales", alpha)
 

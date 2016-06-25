@@ -29,7 +29,6 @@
 \author{ Tomislav Hengl, Mario Antonio Guevara Santamaria and Bas Kempen}
 \seealso{ \code{\link{fit.gstatModel}}, \code{stats::glm}, \code{gstat::fit.variogram}, \code{randomForest::randomForest} }
 \examples{
-## Meuse data:
 library(sp)
 library(rpart)
 library(nlme)
@@ -39,6 +38,7 @@ library(quantregForest)
 library(xgboost)
 library(caret)
 library(scales)
+library(AICcmodavg)
 
 ## load the Meuse data set:
 demo(meuse, echo=FALSE)
@@ -57,19 +57,31 @@ m1 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
     fit.family=gaussian(log), method="GLM")
 m1@vgmModel
 plot(m1)
+rk1 <- predict(m1, meuse.grid)
+plot(rk1)
+
 ## fit a regression tree with variogram:
 m2 <- fit.regModel(log1p(om)~dist+ffreq, rmatrix=ov, meuse.grid,
      method="rpart")
 plot(m2)
+rk2 <- predict(m2, meuse.grid)
+plot(rk2)
+
 ## fit a lme model with variogram:
 m3 <- fit.regModel(log1p(om)~dist, rmatrix=ov, meuse.grid,
      method="lme", random=~1|ffreq)
 plot(m3)
+#rk3 <- predict(m3, meuse.grid)
+#plot(rk3)
+
 ## fit a randomForest model with variogram
 ## NOTE: no transformation required
 m4 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
      method="randomForest")
 plot(m4)
+rk4 <- predict(m4, meuse.grid)
+plot(rk4)
+
 ## RF is very sensitive to the 'mtry' argument:
 m4b <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
      method="randomForest", mtry=2)
@@ -78,12 +90,23 @@ plot(m4b)
 m5 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
      method="quantregForest")
 plot(m5)
+rk5 <- predict(m5, meuse.grid)
+plot(rk5)
+dev.off()
+## plot prediction error map:
+spplot(rk5@predicted["var1.var"])
+
 ## ranger
 m6 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
      method="ranger")
 plot(m6)
+rk6 <- predict(m6, meuse.grid)
+plot(rk6)
+
 ## XGBoost
 m7 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
      method="xgboost")
 plot(m7)
+rk7 <- predict(m7, meuse.grid)
+plot(rk7)
 }

@@ -1,5 +1,5 @@
 # Purpose        : Fit/predict distribution of soil types (via multinom);
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
+# Maintainer     : Tomislav Hengl (tom.hengl@isric.org)
 # Contributions  : Bas Kempen (bas.kempen@wur.nl); 
 # Dev Status     : Pre-Alpha
 # Note           : if the regression model is difficult to fit, it might lead to artifacts (see also "mlogit" package);
@@ -52,6 +52,8 @@ setMethod("spmultinom", signature(formulaString = "formula", observations = "Spa
        ac <- sum(diag(cf))/sum(cf)*100
        message(paste("Estimated Cohen Kappa (weighted):", signif(c.kappa$weighted.kappa, 4)))
        message(paste("Map purity:", signif(ac, 3)))
+     } else {
+       stop("Packages 'mda' and 'psych' required but not available")
      }
   }
   

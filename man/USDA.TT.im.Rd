@@ -3,7 +3,7 @@
 \alias{USDA.TT.im}
 \alias{TT2tri}
 \title{Probability density for texture triangle}
-\description{Probability density for texture triangle (USDA system) based on global soil profile data (\url{http://soilprofiles.org}).}
+\description{Probability density for texture triangle (USDA system) based on global soil profile data (see ISRIC WoSIS).}
 \usage{data(USDA.TT.im)}
 \format{
 The \code{USDA.TT.im} data frame contains the following columns:

@@ -34,10 +34,15 @@ setMethod("fit.gstatModel", signature(observations = "SpatialPointsDataFrame", f
   
   ## copy coordinate column names for consistency:
   xyn <- which(names(ov) %in% attr(observations@bbox, "dimnames")[[1]])
-  if(length(xyn)==2) { 
-    names(ov)[xyn] <- attr(covariates@bbox, "dimnames")[[1]][1:2] 
+  if(is.null(attr(covariates@bbox, "dimnames")[[1]])) {
+    dim.names = attr(observations@bbox, "dimnames")[[1]]
+  } else {
+    dim.names = attr(covariates@bbox, "dimnames")[[1]]
+  }
+  if(length(xyn)==2) {
+    names(ov)[xyn] <- dim.names[1:2] 
     } else {
-    names(ov)[xyn] <- attr(covariates@bbox, "dimnames")[[1]]     
+    names(ov)[xyn] <- dim.names
   }
 
   ## check the size of output:

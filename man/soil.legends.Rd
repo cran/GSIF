@@ -24,7 +24,7 @@ Contains a list of color palettes (data frames with class names / break points, 
   \item{\code{TAXOUSDA}}{factor; Keys to Soil Taxonomy suborders}
 }
 }
-\note{Breaks for continuous soil properties were determined using the \code{quantiles} function and by visually inspecting the histograms to maximize the contrast in output maps. Based on a compilation of global soil profile data (\url{http://soilprofiles.org}).}
+\note{Breaks for continuous soil properties were determined using the \code{quantiles} function and by visually inspecting the histograms to maximize the contrast in output maps. Based on a compilation of global soil profile data (see ISRIC WoSIS).}
 \author{Tomislav Hengl}
 \references{
 \itemize{

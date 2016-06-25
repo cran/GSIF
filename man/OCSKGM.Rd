@@ -16,7 +16,7 @@
   \item{se.prop}{logical; specifies whether to derive propagated error}
 }
 \value{
-\href{http://www.eoearth.org/view/article/156087}{Soil organic carbon stock} in kilograms per square-meter. To convert to tonnes per hectar multiply by 10.
+Soil organic carbon stock in kilograms per square-meter. To convert to tonnes per hectar multiply by 10.
 }
 \note{
 Propagated error (attached as an attribute) is estimated using the Taylor Series Method and shows only an approximate estimate. A more robust way to estimate the propagated uncertainty would be to use (geo)statistical simulations. See Heuvelink (1998) for more info.

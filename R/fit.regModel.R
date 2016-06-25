@@ -169,6 +169,7 @@ setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.f
         if(method == "quantregForest"){ 
           ## TH: the quantreg package developed by Nicolai Meinshausen <meinshausen@stats.ox.ac.uk> is more computationally demanding, but more flexible      
           if(requireNamespace("quantregForest", quietly = TRUE)){
+            message("Fitting a Quantile Regression Forest model...")
             rgm <- quantregForest::quantregForest(y=eval(formulaString[[2]], rmatrix.s), x=rmatrix.s[,all.vars(formulaString)[-1]], importance=TRUE)
             attr(rgm$y, "name") <- tv
           } else {
@@ -184,12 +185,11 @@ setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.f
   ## Extract residuals:
   if(method == "quantregForest"){
     ## breaks if there are incomplete obs:
-    rmatrix[f,paste(tv, "residual", sep=".")] <- rmatrix[f,tv] - predict(rgm, newdata=rmatrix[f,attr(rgm$forest$ncat, "names")], what=.5)
+    rmatrix[f,paste(tv, "residual", sep=".")] <- rmatrix[f,tv] - predict(rgm, newdata=rmatrix[f,attr(rgm$forest$ncat, "names")], .5)
   } 
   if(method == "randomForest"|method == "rpart"){
     rmatrix[,paste(tv, "residual", sep=".")] <- rmatrix[,tv] - predict(rgm, newdata=rmatrix, na.action = na.pass)
   }
-  
   if(method == "ranger"){
     if(requireNamespace("ranger", quietly = TRUE)){
       rmatrix[f,paste(tv, "residual", sep=".")] <- rmatrix[f,tv] - predict(rgm, rmatrix[f,])$predictions
