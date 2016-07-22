@@ -86,6 +86,8 @@ plot(rk4)
 m4b <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
      method="randomForest", mtry=2)
 plot(m4b)
+
+\dontrun{
 ## RF with uncertainty (quantregForest package)
 m5 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
      method="quantregForest")
@@ -98,15 +100,16 @@ spplot(rk5@predicted["var1.var"])
 
 ## ranger
 m6 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
-     method="ranger")
+     method="ranger", rvgm=NULL)
 plot(m6)
 rk6 <- predict(m6, meuse.grid)
 plot(rk6)
 
 ## XGBoost
 m7 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
-     method="xgboost")
+     method="xgboost", rvgm=NULL)
 plot(m7)
 rk7 <- predict(m7, meuse.grid)
 plot(rk7)
+}
 }

@@ -18,7 +18,7 @@ The \code{USDA.TT.im} data frame contains the following columns:
 \author{ Tomislav Hengl }
 \references{
 \itemize{
-\item Skaggs, T. H., Arya, L. M., Shouse, P. J., Mohanty, B. P., (2001) \href{https://www.soils.org/publications/sssaj/articles/65/4/1038}{Estimating Particle-Size Distribution from Limited Soil Texture Data}. Soil Science Society of America Journal 65 (4): 1038-1044.
+\item Skaggs, T. H., Arya, L. M., Shouse, P. J., Mohanty, B. P., (2001) Estimating Particle-Size Distribution from Limited Soil Texture Data. Soil Science Society of America Journal 65 (4): 1038-1044.
 }
 }
 \seealso{ \code{\link{FAO.SoilProfileCollection}}, \code{\link{soil.dom}} }

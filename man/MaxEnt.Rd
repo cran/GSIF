@@ -4,7 +4,7 @@
 \alias{MaxEnt,ppp,SpatialPixelsDataFrame-method}
 \alias{predict,MaxEnt-method}
 \title{Prediction and cross-validation using the Maximum Entropy}
-\description{Runs \href{http://www.cs.princeton.edu/~schapire/maxent/}{MaxEnt} algorithm on a set of observations (\code{"ppp"} class from the \href{http://www.spatstat.org}{spatstat} package) and environmental covariates (of \code{"SpatialPixelsDataFrame"} class) and returns predicted probability of occurrence and cross-validation of models with presence/absence data.}
+\description{Runs \href{http://www.cs.princeton.edu/~schapire/maxent/}{MaxEnt} algorithm on a set of observations (\code{"ppp"} class from the \href{https://cran.r-project.org/package=spatstat}{spatstat} package) and environmental covariates (of \code{"SpatialPixelsDataFrame"} class) and returns predicted probability of occurrence and cross-validation of models with presence/absence data.}
 \usage{
 \S4method{MaxEnt}{ppp,SpatialPixelsDataFrame}(occurrences, covariates,
           nfold = 5, Npoints = 1000, sciname = as.character(NA), 

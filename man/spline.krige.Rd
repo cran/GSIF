@@ -41,7 +41,7 @@ Spline interpolation is implemented via the SAGA GIS v2.1 function \code{"Multil
 \itemize{
 \item Hengl T., (2006) \href{http://dx.doi.org/10.1016/j.cageo.2005.11.008}{Finding the right pixel size}. Computers and Geosciences, 32(9): 1283-1298.
 \item SAGA GIS (\url{http://sourceforge.net/projects/saga-gis/})
-\item SpatStat package (\url{http://www.spatstat.org})
+\item SpatStat package (\url{https://cran.r-project.org/package=spatstat})
 }
 }
 \author{ Tomislav Hengl }

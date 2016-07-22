@@ -28,8 +28,8 @@ library(raster)
 
 ## Ebergotzen data set:
 data(eberg)
-## subset to 10%
-eberg <- eberg[runif(nrow(eberg))<.1,]
+## subset to 8%
+eberg <- eberg[runif(nrow(eberg))<.08,]
 coordinates(eberg) <- ~X+Y
 proj4string(eberg) <- CRS("+init=epsg:31467")
 data(eberg_grid)
@@ -38,12 +38,13 @@ proj4string(eberg_grid) <- CRS("+init=epsg:31467")
 
 ## predict sand content:
 SNDMHT_A <- autopredict(eberg["SNDMHT_A"], eberg_grid,
-   auto.plot=FALSE)
-spplot(SNDMHT_A$predicted["SNDMHT_A"])
+   auto.plot=FALSE, rvgm=NULL)
+plot(raster(SNDMHT_A$predicted["SNDMHT_A"]), col=SAGA_pal[[1]])
 
 ## predict soil types:
 soiltype <- autopredict(eberg["soiltype"], eberg_grid, 
   auto.plot=FALSE)
+\dontrun{
 spplot(soiltype$predicted, col.regions=R_pal[[2]])
 ## most probable class:
 eberg_grid$soiltype <- as.factor(apply(soiltype$predicted@data, 1, which.max))
@@ -52,6 +53,8 @@ spplot(eberg_grid["soiltype"])
 
 ## Meuse data set:
 demo(meuse, echo=FALSE)
-zinc <- autopredict(meuse["zinc"], meuse.grid[c("dist","ffreq")], auto.plot=FALSE)
+zinc <- autopredict(meuse["zinc"], meuse.grid[c("dist","ffreq")], 
+  auto.plot=FALSE, rvgm=NULL)
 spplot(zinc$predicted["zinc"])
+}
 }

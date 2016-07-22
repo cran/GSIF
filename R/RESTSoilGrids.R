@@ -5,21 +5,15 @@
 # Note           : Location of the server and parameter names might change!
 
 
-REST.SoilGrids <- function(attributes, depths=paste("sd",1:6,sep=""), confidence=c("L","M","U"), validate=FALSE){
+REST.SoilGrids <- function(attributes, depths=paste("sl",1:7,sep=""), confidence=c("L","M","U"), validate=FALSE){
   if(requireNamespace("rjson", quietly = TRUE)){
     if(validate==TRUE){
     ## get the most recent description:
-      try( ret <- rjson::fromJSON(file=paste(get("REST.server", envir = GSIF.opts), "query/describe", sep="")), silent = TRUE )
+      try( ret <- rjson::fromJSON(file=paste0(get("REST.server", envir = GSIF.opts), "query/describe")), silent = TRUE )
       if(!class(.Last.value)[1]=="try-error" & !length(ret$query)==0){
-        if(any(!attributes %in% ret$query$attributes)){
-          stop(paste("Requested 'attributes' not present. See '", get("REST.server", envir = GSIF.opts),"' for more info.", sep=""))
-        }
         if(any(!depths %in% ret$query$depths)){
           stop(paste("Requested 'depths' not present. See '", get("REST.server", envir = GSIF.opts), "' for more info.", sep=""))
         }
-        if(any(!confidence %in% ret$query$confidence)){
-          stop(paste("Requested 'confidence' not present. See '", get("REST.server", envir = GSIF.opts),"' for more info.", sep=""))
-        }        
       }
     }
     out <- new("REST.SoilGrids", server=get("REST.server", envir = GSIF.opts), query=list(attributes=attributes, confidence=confidence, depths=depths), stream=list(clipList=NA, param=NA))

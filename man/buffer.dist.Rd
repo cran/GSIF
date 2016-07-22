@@ -28,6 +28,8 @@ library(scales)
 
 ## Load the Meuse data set:
 demo(meuse, echo=FALSE)
+
+## Example with soil organic matter:
 classes <- cut(meuse$om, breaks=seq(0, 17, length=8))
 ## are these optimal splits?
 grid.dist <- buffer.dist(meuse["om"], meuse.grid[1], classes)
@@ -36,11 +38,11 @@ plot(stack(grid.dist))
 dn <- paste(names(grid.dist), collapse="+")
 fm <- as.formula(paste("om ~", dn))
 m <- fit.gstatModel(meuse, fm, grid.dist, 
-    method="quantregForest")
+    method="quantregForest", rvgm=NULL)
 plot(m)
 dev.off()
 ## Residual variogram shows no spatial structure
-rk.m <- predict(m, grid.dist, vgmmodel=NULL)
+rk.m <- predict(m, grid.dist)
 plot(rk.m)
 dev.off()
 ## prediction error:
@@ -54,7 +56,8 @@ meuse$classes <- classes
 plotKML(meuse["classes"])
 }
 
-## Example with zinc:
+\dontrun{
+## Combining geographical and feature space covariates:
 meuse.gridT <- meuse.grid
 meuse.gridT@data <- cbind(meuse.grid@data, grid.dist@data)
 fm1 <- as.formula(paste("om ~", dn, "+soil+dist+ffreq"))
@@ -63,17 +66,17 @@ m1 <- fit.gstatModel(meuse, fm1, meuse.gridT,
 ## no need to fit variogram in this case
 plot(m1)
 dev.off()
-rk.m1 <- predict(m1, meuse.gridT, vgmmodel=NULL)
+rk.m1 <- predict(m1, meuse.gridT)
 plot(rk.m1)
 varImpPlot(m1@regModel)
 dev.off()
-\dontrun{
 plotKML(rk.m1@predicted["om"], 
    file.name="rk_combined.kml", 
    colour_scale = SAGA_pal[[1]])
 }
 
-## Zinc:
+\dontrun{
+## Example with zinc:
 classes2 <- cut(meuse$zinc, 
    breaks=seq(min(meuse$zinc), max(meuse$zinc), length=10))
 grid.dist2 <- buffer.dist(meuse["zinc"], meuse.grid[1], classes2)
@@ -82,14 +85,13 @@ meuse.gridT2 <- meuse.grid
 meuse.gridT2@data <- cbind(meuse.grid@data, grid.dist2@data)
 fm2 <- as.formula(paste("zinc ~", dn2, "+soil+dist+ffreq"))
 m2 <- fit.gstatModel(meuse, fm2, meuse.gridT2, 
-      method="quantregForest")
+      method="quantregForest", rvgm=NULL)
 varImpPlot(m2@regModel)
-rk.m2 <- predict(m2, meuse.gridT2, vgmmodel=NULL)
+rk.m2 <- predict(m2, meuse.gridT2)
 plot(rk.m2)
 dev.off()
 ## prediction error:
 plot(raster(rk.m2@predicted[2]))
-\dontrun{
 plotKML(rk.m2@predicted["zinc"], 
     file.name="rk_combined_zinc.kml", 
     colour_scale = SAGA_pal[[1]])
