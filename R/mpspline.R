@@ -19,7 +19,7 @@ setMethod('mpspline', signature(obj = "SoilProfileCollection"),
             objd <- .as.data.frame.SoilProfileCollection(x=obj)
             ## organize the data:
             ndata <- nrow(objd)
-            mxd<- max(d)
+            mxd <- max(d)
             ## Matrix in which the averaged values of the spline are fitted. The depths are specified in the (d) object:
             m_fyfit <- matrix(NA, ncol=length(c(1:mxd)), nrow=ndata)
             ## Matrix in which the sum of square errors of each lamda iteration for the working profile are stored
@@ -34,7 +34,7 @@ setMethod('mpspline', signature(obj = "SoilProfileCollection"),
             ## reformat table (profile no, upper boundary, lower boundary, vars):
             upperb.lst <- grep(names(objd), pattern=glob2rx(paste(depthcols[1], "_*",sep="")))
             lowerb.lst <- grep(names(objd), pattern=glob2rx(paste(depthcols[2], "_*",sep="")))
-            objd_m <- objd[,c(grep(names(objd), pattern=glob2rx(paste0("^", idcol)), fixed=TRUE), upperb.lst, lowerb.lst, svar.lst)]
+            objd_m <- objd[,c(grep(names(objd), pattern=glob2rx(paste0("^", idcol))), upperb.lst, lowerb.lst, svar.lst)]
             np <- length(svar.lst) # max number of horizons
             ## Matrix in which the averaged values of spline-fitted values at observed depths are entered:
             dave <- matrix(NA, ncol=np, nrow=ndata)

@@ -36,11 +36,11 @@ Horizons table contains the following columns:
   \item{\code{EMGX}}{numeric; exchangable Mg in cmolc/kg}
 }
 }
-\author{The Africa Soil Profiles Database have been prepared by Johan Leenaars <johan.leenaars@wur.nl>. This is a subset of the original database that can be downloaded via \href{http://www.isric.org/content/africa-soil-profiles-database}{www.isric.org}. The AfSIS Sentinel Site database is one of the main deliverables of the Africa Soil Information Service project.}
+\author{The Africa Soil Profiles Database have been prepared by Johan Leenaars <johan.leenaars@wur.nl>. This is a subset of the original database that can be downloaded via \href{http://africasoils.net/services/data/soil-databases/}{http://africasoils.net}. The AfSIS Sentinel Site database is one of the main deliverables of the Africa Soil Information Service project.}
 \references{
 \itemize{
 \item Hengl, T., Heuvelink, G.B., Kempen, B., Leenaars, J.G., Walsh, M.G., Shepherd, K.D., Sila, A., MacMillan, R.A., de Jesus, J.M., Tamene, L. and Tondoh, J.E., (2015) \href{http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0125814}{Mapping soil properties of Africa at 250 m resolution: Random forests significantly improve current predictions}. PloS one, 10(6), p.e0125814.
-\item Leenaars, J.G.B. (2014) \href{http://www.isric.org/content/publications}{Africa Soil Profiles Database, Version 1.2. A compilation of geo-referenced and standardized legacy soil profile data for Sub Saharan Africa (with dataset)}. ISRIC report 2012/03. Africa Soil Information Service (AfSIS) project and ISRIC --- World Soil Information, Wageningen, the Netherlands.
+\item Leenaars, J.G.B. (2014) \href{http://www.isric.org}{Africa Soil Profiles Database, Version 1.2. A compilation of geo-referenced and standardized legacy soil profile data for Sub Saharan Africa (with dataset)}. ISRIC report 2012/03. Africa Soil Information Service (AfSIS) project and ISRIC --- World Soil Information, Wageningen, the Netherlands.
 \item Africa Soil Information Service (\url{http://africasoils.net}) 
 }
 }

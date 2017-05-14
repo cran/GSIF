@@ -50,14 +50,14 @@ setMethod("spc", signature(obj = "SpatialPixelsDataFrame", formulaString = "form
       message(paste("Columns with zero variance removed:", names(x)[which(x0)]), immediate. = TRUE)
       formulaString.f = as.formula(paste("~", paste(varsn[-which(x0)], collapse="+")))
       ## principal component analysis:
-      pcs <- prcomp(formula=formulaString.f, x)
+      pcs <- prcomp(formulaString.f, x)
     } else {
       formulaString = as.formula(paste("~", paste(varsn, collapse="+")))
-      pcs <- prcomp(formula=formulaString, x)
+      pcs <- prcomp(formulaString, x)
     }
   } else {
     formulaString = as.formula(paste("~", paste(varsn, collapse="+")))
-    pcs <- prcomp(formula=formulaString, obj@data) 
+    pcs <- prcomp(formulaString, obj@data) 
   }
 
   ## copy values: 

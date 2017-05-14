@@ -31,7 +31,7 @@ Gridded data submitted to \code{sd*} slots of the \code{"SoilGrids"} class must 
 }
 \references{
 \itemize{
-  \item SoilGrids --- a system for automated soil mapping (\url{http://www.soilgrids.org})
+  \item SoilGrids --- a system for automated soil mapping (\url{https://soilgrids.org})
 }
 }
 \author{ Tomislav Hengl and Robert A. MacMillan }

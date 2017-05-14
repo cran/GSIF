@@ -395,9 +395,6 @@ if (!isGeneric("warp")){
   setGeneric("warp", function(obj, ...){standardGeneric("warp")})
 }
 
-if (!isGeneric("MaxEnt")){
-  setGeneric("MaxEnt", function(occurrences, covariates, ...){standardGeneric("MaxEnt")})
-}
 if (!isGeneric("sample.grid")){
   setGeneric("sample.grid", function(obj, cell.size, n, ...){standardGeneric("sample.grid")})
 }
@@ -406,4 +403,3 @@ if(!isGeneric("buffer.dist")){
   setGeneric("buffer.dist", function(observations, predictionDomain, ...){standardGeneric("buffer.dist")})
 }
 
-# end of script;

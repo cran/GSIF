@@ -20,7 +20,7 @@
 \note{More examples of overlay and download functions are available via \url{http://rest.soilgrids.org/}. \code{over} method is not recommended for large point data sets.}
 \references{
 \itemize{
-\item SoilGrids --- a system for automated soil mapping (\url{https://www.soilgrids.org})
+\item SoilGrids --- a system for automated soil mapping (\url{https://soilgrids.org})
 \item REST API SoilGrids (\url{http://rest.soilgrids.org})
 }
 }

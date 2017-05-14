@@ -21,7 +21,7 @@
 \references{
 \itemize{
 \item Multinomial logistic regression (\url{http://en.wikipedia.org/wiki/Multinomial_logit})
-\item Nnet package (\url{http://CRAN.R-project.org/package=nnet})
+\item Nnet package (\url{https://CRAN.R-project.org/package=nnet})
 }
 }
 \seealso{ \code{\link{spfkm}}, \code{\link{SpatialMemberships-class}}}

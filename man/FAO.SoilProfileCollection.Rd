@@ -5,7 +5,7 @@
 \alias{FAO.SoilProfileCollection}
 \alias{munsell}
 \title{A class for FAO SoilProfileCollection}
-\description{A class for harmonized (FAO) soil profile records. Extends the \code{"SoilProfileCollection"} class from the \href{http://cran.r-project.org/package=aqp?}{aqp} package.}
+\description{A class for harmonized (FAO) soil profile records. Extends the \code{"SoilProfileCollection"} class from the \href{https://cran.r-project.org/package=aqp?}{aqp} package.}
 \section{Slots}{
   \describe{    
     \item{\code{idcol}:}{object of class \code{"character"}; column name containing IDs}

@@ -1,6 +1,6 @@
 # Purpose        : Functions for accessing SoilGrids;
 # Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Jorge S. Mendes de Jesus (Jorge.mendesdejesus@wur.nl);
+# Contributions  : Milan Kilibarda (milan.kili11@gmail.com);
 # Status         : tested
 # Note           : Location of the server and parameter names might change!
 
@@ -50,7 +50,7 @@ setMethod("over", signature(x = "REST.SoilGrids", y = "SpatialPoints"),
     out <- NULL
     for(i in 1:nrow(y@coords)){
       uri <- .REST.uri(x, lon=y@coords[i,1], lat=y@coords[i,2])
-      try( ret <- rjson::fromJSON(file=uri), silent = TRUE )
+      try( ret <- rjson::fromJSON(RCurl::getURL(uri)), silent = TRUE )
       if(!class(.Last.value)[1]=="try-error" & !length(ret$properties)==0){
         out[[i]] <- data.frame(ret$properties)
         out[[i]]$lon <- y@coords[i,1]
@@ -64,5 +64,3 @@ setMethod("over", signature(x = "REST.SoilGrids", y = "SpatialPoints"),
     return(out)
   }
 })
-
-## end of script;

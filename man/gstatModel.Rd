@@ -42,6 +42,7 @@ set \code{nsim = 0}.
 ## load observations:
 library(plotKML)
 library(sp)
+library(maptools)
 demo(meuse, echo=FALSE)
 data(meuse)
 coordinates(meuse) <- ~x+y

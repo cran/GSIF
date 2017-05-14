@@ -42,10 +42,10 @@
 Note: this operation can be time consuming for large areas (e.g. >> 1e6 pixels).}
 \references{
 \itemize{
-  \item Bivand, R.S., Pebesma, E.J., and \enc{Gómez}{Gomez}-Rubio, V., (2008) \href{http://www.asdar-book.org/}{Applied Spatial Data Analysis with R}. Springer, 378 p.
+  \item Bivand, R.S., Pebesma, E.J., and \enc{G?mez}{Gomez}-Rubio, V., (2008) \href{http://www.asdar-book.org/}{Applied Spatial Data Analysis with R}. Springer, 378 p.
   \item FWTools (\url{http://fwtools.maptools.org})
-  \item gdalUtils package (\url{http://CRAN.R-project.org/package=gdalUtils})
-  \item Raster package (\url{http://CRAN.R-project.org/package=raster})
+  \item gdalUtils package (\url{https://CRAN.R-project.org/package=gdalUtils})
+  \item Raster package (\url{https://CRAN.R-project.org/package=raster})
 }                 
 }
 \author{ Tomislav Hengl }

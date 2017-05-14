@@ -5,7 +5,7 @@
 \alias{extract,SpatialPoints,character-method}
 \alias{extract,SpatialPointsDataFrame,character-method}
 \title{Extracts values at points from a list of files}
-\description{Overlays and extracts values at points from a list of raster layers defined as file names (e.g. GeoTiffs). Extends the \code{extract} function from the \href{http://cran.r-project.org/package=raster}{raster} package. Especially suitable for extracting values of a large list of rasters that have not been organized into a mosaick (a virtual stack), for example a list of Landsat scenes.}
+\description{Overlays and extracts values at points from a list of raster layers defined as file names (e.g. GeoTiffs). Extends the \code{extract} function from the \href{https://cran.r-project.org/package=raster}{raster} package. Especially suitable for extracting values of a large list of rasters that have not been organized into a mosaick (a virtual stack), for example a list of Landsat scenes.}
 \usage{
 \S4method{extract}{SpatialPoints,character}(x, y, 
    path=".", ID = "SOURCEID", 

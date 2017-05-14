@@ -10,7 +10,7 @@ setMethod("buffer.dist", signature(observations = "SpatialPointsDataFrame", pred
   if(!length(classes)==length(observations)){ stop("Length of 'observations' and 'classes' does not match.") }
   ## remove classes without any points:
   xg = summary(classes, maxsum=length(levels(classes)))
-  selg.levs = attr(xg, "names")[xg > 1]
+  selg.levs = attr(xg, "names")[xg > 0]
   if(length(selg.levs)<length(levels(classes))){
     fclasses <- as.factor(classes)
     fclasses[which(!fclasses %in% selg.levs)] <- NA
