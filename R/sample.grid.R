@@ -1,10 +1,3 @@
-# Purpose        :  get a subset of spatial points with at least n points in each cell;
-# Maintainer     : Wei Shangguan (shanggv@hotmail.com);
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl);
-# Status         : tested
-# Note           :
-
-
 sample.grid.SpatialPointsDataFrame <- function(obj, cell.size, n, bbox, ...){
     #to avoid the gid in obj
     if ("gid" %in% names(obj)){

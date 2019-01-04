@@ -1,10 +1,3 @@
-# Purpose        : estimate occurrence probabilities;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : ;
-# Status         : pre-alpha
-# Note           : Not recommended for large grids;
-
-
 setMethod("spsample.prob", signature(observations = "SpatialPoints", covariates = "SpatialPixelsDataFrame"), function(observations, covariates, quant.nndist=.95, n.sigma, ...){
    
   ## mask out missing combinations:

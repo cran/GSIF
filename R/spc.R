@@ -1,10 +1,3 @@
-# Purpose        : Derive Spatial Predictive Components for a list of grids;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : ;
-# Status         : pre-alpha
-# Note           : Not recommended for large grids;
-
-
 setMethod("spc", signature(obj = "SpatialPixelsDataFrame", formulaString = "formula"), function(obj, formulaString, scale. = TRUE, silent = FALSE, ...){
 
   ## formula string:

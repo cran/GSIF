@@ -1,10 +1,3 @@
-# Purpose        : Fit a 2D or 3D regression model;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : Bas Kempen (bas.kempen@wur.nl) and Gerard B.M. Heuvelink (gerard.heuvelink@wur.nl) and Mario Antonio Guevara (mguevara@udel.edu); 
-# Dev Status     : Alpha
-# Note           : Regression families considered spatial GLMs, CART, random forest, linear mixed-effect models ...;
-
-
 ## Fit a GLM to spatial data:
 setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.frame", predictionDomain = "SpatialPixelsDataFrame", method = "character"), function(formulaString, rmatrix, predictionDomain, method = list("GLM", "rpart", "randomForest", "quantregForest", "lme", "xgboost", "ranger"), dimensions = NULL, fit.family = gaussian(), stepwise = TRUE, rvgm, GLS = FALSE, steps = 100, subsample, subsample.reg, ...){
 

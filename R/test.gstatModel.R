@@ -1,9 +1,3 @@
-# Purpose        : evaluate/test gstatModel for model diagnostics;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : ; 
-# Dev Status     : Pre-Alpha
-# Note           : ;
-
 .test.gstat.Model <- function(observations, formulaString, covariates, Ns, predictionLocations, save.predictions = TRUE, debug.level = 0, nfold = 5, ...){
   
   ## get method:                       

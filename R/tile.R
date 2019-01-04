@@ -1,9 +1,3 @@
-# Purpose        : tile points, lines, polygons or rasters based on a polygon map;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : ; 
-# Dev Status     : Pre-Alpha
-# Note           : it works together with FWTools and SAGA GIS if requested;
-
 ## create table with tile dimensions...
 makeTiles <- function(bb, block.x, block.y, overlap.percent, limit.bbox, columns = NULL, rows = NULL){
   

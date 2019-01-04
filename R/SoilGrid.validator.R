@@ -1,9 +1,3 @@
-# Purpose        : Geotif validator
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : ; 
-# Dev Status     : Beta
-# Note           : For more details see [https://docs.google.com/document/d/1APpIyOFdXlJhXGd_huejJjX3EnCTUj2q_K8SfljL62E/pub]
-
 SoilGrid.validator <- function(obj, domain, ground.truth, N.sample=2000, xml.file, z.lim, md.type="INSPIRE", test.URL=FALSE){
 
   if(!class(obj)=="GDALobj"|!class(domain)=="GDALobj"){

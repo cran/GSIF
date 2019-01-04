@@ -1,9 +1,4 @@
-# Purpose        : Limiting Rootability index / Effective Rootable Depth;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : Johan Leenaars and Maria Ruiperez Gonzalez 
-# Dev Status     : Stable
-# Note           : Empirical formula by J. Leenaars; threshold values need to be fine-tuned;
-
+# Note: Empirical formula by J. Leenaars; threshold values need to be fine-tuned;
 
 .EffR <- function(x, hdepth, a0, b0, trend, r1, r2){
   ## replace missing values using smoothing spline:

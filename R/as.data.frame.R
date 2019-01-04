@@ -1,10 +1,3 @@
-# Purpose        : Converts an object of type SoilProfileCollection to a single table;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : Brendan Malone (brendan.malone@sydney.edu.au);
-# Status         : pre-alpha
-# Note           : see also "join" operation;
-
-
 # Converts a SoilProfileCollection to a data frame:
 .as.data.frame.SoilProfileCollection <- function(x, row.names = NULL, optional = FALSE, ...){
  

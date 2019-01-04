@@ -1,10 +1,3 @@
-# Purpose        : Fit/predict distribution of soil types (via multinom);
-# Maintainer     : Tomislav Hengl (tom.hengl@isric.org)
-# Contributions  : Bas Kempen (bas.kempen@wur.nl); 
-# Dev Status     : Pre-Alpha
-# Note           : if the regression model is difficult to fit, it might lead to artifacts (see also "mlogit" package);
-
-
 ## fit a multinomial logistic regression and make predictions:
 setMethod("spmultinom", signature(formulaString = "formula", observations = "SpatialPointsDataFrame", covariates = "SpatialPixelsDataFrame"), function(formulaString, observations, covariates, class.stats = TRUE, predict.probs = TRUE, ...){
 

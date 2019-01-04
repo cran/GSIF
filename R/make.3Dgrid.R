@@ -1,10 +1,3 @@
-# Purpose        : Prepare prediction locations following the GlobalSoilMap specs;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : ; 
-# Dev Status     : Pre-Alpha
-# Note           : GlobalSoilMap specifications are constantly updated at [http://globalsoilmap.net/specifications];
-
-
 ## make prediction locations in WGS84 (from point to grid):
 setMethod("make.3Dgrid", signature(obj = "SpatialPixelsDataFrame"), function(obj, proj4s = get("ref_CRS", envir = GSIF.opts), pixsize = get("cellsize", envir = GSIF.opts)[2], resampling_method = "bilinear", NAflag = get("NAflag", envir = GSIF.opts), stdepths = get("stdepths", envir = GSIF.opts), tmp.file = TRUE, show.output.on.console = TRUE, ...){   
   

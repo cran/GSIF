@@ -1,10 +1,3 @@
-# Purpose        : Initial settings;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : Dylan Beaudette (dylan.beaudette@gmail.com);
-# Dev Status     : Pre-Alpha
-# Note           : Aqp classes described here -> [http://r-forge.r-project.org/projects/aqp/]; for more info see [http://cran.r-project.org/doc/manuals/R-exts.html];
-
-
 ################## STANDARD ENVIRONMENTS ##############
 
 ## setup the plotKML environment:

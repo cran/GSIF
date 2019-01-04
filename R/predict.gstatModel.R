@@ -1,11 +1,3 @@
-# Purpose        : Predict using 2D or 3D regression-kriging model;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl) and Gerard Heuvelink (gerard.heuvelink@wur.nl)
-# Contributions  : Bas Kempen; 
-# Dev Status     : Pre-Alpha
-# Note           : cross-validation methods will need to be extended;
-
-
-################## prediction #########################
 ## predict values using a RK model:
 predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30, debug.level = -1, predict.method = c("RK", "KED"), nfold = 5, verbose = FALSE, nsim = 0, mask.extra = TRUE, block, zmin = -Inf, zmax = Inf, subsample = length(object@sp), coarsening.factor = 1, vgmmodel = object@vgmModel, subset.observations = !is.na(object@sp@coords[,1]), betas = c(0,1), extend = .5, ...){
   

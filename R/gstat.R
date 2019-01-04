@@ -1,8 +1,4 @@
-# Purpose        : Uses windows binaries for gstat.exe (ordinary / universal kriging predictions and simulations);
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : ; 
-# Dev Status     : Pre-Alpha
-# Note           : This code was developed on Windows 7 OS. Important note: Gstat.exe is not used mainted by the author of gstat any more (read more at http://www.gstat.org/). Possibly a better option is to use Python interface to SGeMS (http://sgems.sourceforge.net/) and/or HPGL library (http://hpgl.aoizora.org);
+# Note: This code was developed on Windows 7 OS. Important note: Gstat.exe is not used mainted by the author of gstat any more (read more at http://www.gstat.org/). Possibly a better option is to use Python interface to SGeMS (http://sgems.sourceforge.net/) and/or HPGL library (http://hpgl.aoizora.org);
 
 
 ## Writes geosamples to a GEO-EAS text file

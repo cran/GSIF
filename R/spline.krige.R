@@ -1,9 +1,3 @@
-# Purpose        : Speading up ordinary kriging (e.g. of the regression residuals);
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : ;
-# Status         : pre-alpha
-# Note           : this function is ONLY useful for highly clustered point data sets;
-
 spline.krige <- function(formula, locations, newdata, newlocs=NULL, model, te=as.vector(newdata@bbox), file.name, silent=FALSE, t_cellsize=newdata@grid@cellsize[1], optN=20, quant.nndist=.5, nmax=30, predictOnly=FALSE, resample=TRUE, saga.env, saga.lib=c("grid_spline","grid_tools"), saga.module=c(4,0), ...){
   if(!class(locations)=="SpatialPointsDataFrame"){
     stop("Object 'locations' of class 'SpatialPointsDataFrame' expected")

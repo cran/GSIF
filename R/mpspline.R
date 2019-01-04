@@ -1,10 +1,4 @@
-# Purpose        : Fits a mass-preserving (pycnophylactic) spline to soil profile data;
-# Maintainer     : Brendan Malone (brendan.malone@sydney.edu.au); 
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl); Tom Bishop (t.bishop@usyd.edu.au); David Rossiter (david.rossiter@wur.nl)
-# Status         : experimental
-# Note           : Mass-preserving spline explained in detail in [http://dx.doi.org/10.1016/S0016-7061(99)00003-8];
-# Note 2         : This code needs to be cleaned up;
-
+# Note: Mass-preserving spline explained in detail in [http://dx.doi.org/10.1016/S0016-7061(99)00003-8];
 
 # Spline fitting for horizon data (created by Brendan Malone; adjusted by T. Hengl)
 setMethod('mpspline', signature(obj = "SoilProfileCollection"), 

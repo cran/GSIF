@@ -1,9 +1,3 @@
-# Purpose        : Automate prediction of soil properties / soil types;
-# Maintainer     : Tomislav Hengl (tom.hengl@isric.org)
-# Contributions  : ;
-# Dev Status     : Pre-Alpha
-# Note           : ;
-
 setMethod("autopredict", signature(target = "SpatialPointsDataFrame", covariates = "SpatialPixelsDataFrame"), function(target, covariates, auto.plot=TRUE, spc=TRUE, buffer.dist=TRUE, ...){
   
   ## parent call:

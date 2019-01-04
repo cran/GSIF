@@ -1,10 +1,3 @@
-# Purpose        : Locate the cells for a given bounding box;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : Pierre Roudier;
-# Status         : tested
-# Note           : Land mask will be continously updated;
-
-
 setMethod("getID", signature(obj = "SpatialPolygons"), function(obj, pixsize = 3/3600, empty.tif = FALSE, compress = FALSE, zipname = set.file.extension(tempfile(tmpdir = getwd()), "zip")){
  
   if(is.projected(obj)){

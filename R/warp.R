@@ -1,9 +1,3 @@
-# Purpose        : resampling with GDAL;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : ; 
-# Dev Status     : Pre-Alpha
-# Note           : ;
-
 .programPath <- function(path, utility){
   if(missing(path)){
     if(!file.exists("C:/PROGRA~1/GDAL/")&.Platform$OS.type == "windows"){

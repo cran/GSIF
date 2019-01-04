@@ -1,9 +1,3 @@
-# Purpose        : Overlay points/lines/polygons over any list of files e.g. Landsat scenes;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : ;
-# Status         : pre-alpha
-# Note           : in the case multiple files follow the same pattern the values are aggregated;
-
 extract.list <- function(x, y, path=".", ID="SOURCEID", method="simple", is.pattern=FALSE, force.projection = TRUE, NAflag = "", show.progress=TRUE, isFactor=FALSE, ...){
   if(requireNamespace("reshape", quietly = TRUE)){
     if(path=="."){ path <- getwd() }

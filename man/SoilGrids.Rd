@@ -4,7 +4,7 @@
 \alias{SoilGrids-class}
 \alias{SoilGrids}
 \title{A class for SoilGrids --- soil property and/or class maps}
-\description{A class containing predictions and prediction error (or multiple realizations) of some of the target global soil property at six standard depths. Standard depths used are based on the \href{http://globalsoilmap.net/specifications}{GlobalSoilMap.net specifications}: \code{sd1} = 2.5 cm (0--5), \code{sd2} = 10 cm (5--15), \code{sd3} = 22.5 cm (15--30), \code{sd4} = 45 cm (30--60), \code{sd5} = 80 cm (60--100), \code{sd6} = 150 cm (100--200).}
+\description{A class containing predictions and prediction error (or multiple realizations) of some of the target global soil property at six standard depths. Standard depths used are based on the \href{http://globalsoilmap.net}{GlobalSoilMap.net specifications}: \code{sd1} = 2.5 cm (0--5), \code{sd2} = 10 cm (5--15), \code{sd3} = 22.5 cm (15--30), \code{sd4} = 45 cm (30--60), \code{sd5} = 80 cm (60--100), \code{sd6} = 150 cm (100--200).}
 \section{Slots}{
   \describe{    
     \item{\code{varname}:}{object of class \code{"character"}; abbreviated variable name registered in the Global Soil Data registry}

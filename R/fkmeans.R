@@ -1,10 +1,3 @@
-# Purpose        : Fit/predict distribution of soil types (memberships);
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : Bas Kempen (bas.kempen@wur.nl); 
-# Dev Status     : Pre-Alpha
-# Note           : if the regression model is difficult to fit, it might lead to artifacts;
-
-
 # Fit a supervised fuzzy kmeans model and predict memberships:
 setMethod("spfkm", signature(formulaString = "formula", observations = "SpatialPointsDataFrame", covariates = "SpatialPixelsDataFrame"), function(formulaString, observations, covariates, class.c = NULL, class.sd = NULL, fuzzy.e = 1.2){
   

@@ -1,10 +1,3 @@
-# Purpose        : Derive distances to points;
-# Maintainer     : Tomislav Hengl (tom.hengl@isric.org)
-# Contributions  : ;
-# Dev Status     : Pre-Alpha
-# Note           : not recommended for big data;
-
-
 setMethod("buffer.dist", signature(observations = "SpatialPointsDataFrame", predictionDomain = "SpatialPixelsDataFrame"), function(observations, predictionDomain, classes, width, ...){
   if(missing(width)){ width <- sqrt(areaSpatialGrid(predictionDomain)) }
   if(!length(classes)==length(observations)){ stop("Length of 'observations' and 'classes' does not match.") }

@@ -1,10 +1,3 @@
-# Purpose        : Fitting 2D or 3D variograms;
-# Maintainer     : Bas Kempen (bas.kempen@wur.nl);
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl) and Gerard Heuvelink (gerard.heuvelink@wur.nl); 
-# Dev Status     : Pre-Alpha
-# Note           : The variogram fitting in geoR is probably more robust, but also more time consuming;
-
-
 ## fit variogram to a 2D or 3D point object:
 setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.frame", predictionDomain = "SpatialPixelsDataFrame"), function(formulaString, rmatrix, predictionDomain, vgmFun = "Exp", dimensions = list("2D", "3D", "2D+T", "3D+T"), anis = NULL, subsample = nrow(rmatrix), ivgm, cutoff = NULL, width = cutoff/15, cressie = FALSE, ...){
 

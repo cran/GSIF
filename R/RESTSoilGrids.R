@@ -1,10 +1,3 @@
-# Purpose        : Functions for accessing SoilGrids;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Milan Kilibarda (milan.kili11@gmail.com);
-# Status         : tested
-# Note           : Location of the server and parameter names might change!
-
-
 REST.SoilGrids <- function(attributes, depths=paste("sl",1:7,sep=""), confidence=c("L","M","U"), validate=FALSE){
   if(requireNamespace("rjson", quietly = TRUE)){
     if(validate==TRUE){

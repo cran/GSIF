@@ -1,10 +1,3 @@
-# Purpose        : Conversion of texture by hand classes to fractions using prior probabilities;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : ;
-# Status         : pre-alpha
-# Note           : some examples at [http://gsif.isric.org/doku.php?id=wiki:soil_data];
-
-
 .get.TF.from.XY <- function(xcoord, ycoord) {
     CLY <- ycoord/sin(pi/3)
     SND <- (2 - CLY - 2 * xcoord) * 0.5

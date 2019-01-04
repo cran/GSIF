@@ -1,9 +1,4 @@
-# Purpose        : Better links to SAGA GIS;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : ; 
-# Dev Status     : Pre-Alpha
-# Note           : This code was developed on Windows 7 OS. SAGA GIS can be obtained from http://sourceforge.net/projects/saga-gis/;
-
+# Note: This code was developed on Windows 7 OS. SAGA GIS can be obtained from http://sourceforge.net/projects/saga-gis/;
 
 ## create a SAGA txt colour table:
 makeSAGAlegend <- function(x, col_pal, MINIMUM = 1:length(levels(x)), MAXIMUM = 2:(length(levels(x))+1), filename = paste(deparse(substitute(x, env=parent.frame())),"legend", sep="_"), writeonly = TRUE){

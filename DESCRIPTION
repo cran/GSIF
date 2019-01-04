@@ -1,13 +1,13 @@
 Package: GSIF
 Type: Package
 Title: Global Soil Information Facilities
-Version: 0.5-4
-Date: 2017-04-25
-Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"), email = "tom.hengl@isric.org"),
+Version: 0.5-5
+Date: 2019-01-04
+Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"), email = "tom.hengl@opengeohub.org"),
     person("Bas", "Kempen", role = "ctb", email = "bas.kempen@wur.nl"),
     person("Gerard", "Heuvelink", role = "ctb", email = "gerard.heuvelink@wur.nl"),
-  	person("Brendan", "Malone", role = "ctb", email = "brendan.malone@sydney.edu.au"))
-Maintainer: Tomislav Hengl <tom.hengl@isric.org>
+  	person("Brendan", "Malone", role = "ctb", email = "brendan.malone@scsiro.au"))
+Maintainer: Tomislav Hengl <tom.hengl@opengeohub.org>
 Depends: R (>= 2.15.0)
 Imports: methods, sp (>= 1.0-8), RSAGA, dismo, rgdal, raster, aqp,
         plotKML, gstat, stats, plyr, grDevices, graphics, scales
@@ -21,14 +21,11 @@ License: GPL
 URL: http://gsif.r-forge.r-project.org/
 LazyLoad: yes
 RoxygenNote: 6.0.1
+NeedsCompilation: no
+Packaged: 2019-01-03 16:40:57 UTC; tomislav
 Author: Tomislav Hengl [cre, aut],
   Bas Kempen [ctb],
   Gerard Heuvelink [ctb],
   Brendan Malone [ctb]
 Repository: CRAN
-Repository/R-Forge/Project: gsif
-Repository/R-Forge/Revision: 244
-Repository/R-Forge/DateTimeStamp: 2017-05-13 18:40:16
-Date/Publication: 2017-05-14 17:36:19 UTC
-NeedsCompilation: no
-Packaged: 2017-05-13 18:45:08 UTC; rforge
+Date/Publication: 2019-01-04 13:50:27 UTC

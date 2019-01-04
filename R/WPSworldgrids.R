@@ -1,9 +1,3 @@
-# Purpose        : Wrapper functions for WPS worldgrids;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : Hannes Reuter (hannes.reuter@wur.nl);
-# Status         : tested
-# Note           : Location of the server and parameter names might change!;
-
 ## get capacities:
 setMethod("show", signature(object = "WPS"), function(object){
   if(requireNamespace("XML", quietly = TRUE)){

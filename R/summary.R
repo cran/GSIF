@@ -1,10 +1,3 @@
-# Purpose        : Get a summary of a SpatialPredictions class;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : ;
-# Status         : pre-alpha
-# Note           : ;
-
-
 ## Get a summary as a data frame:
 setMethod("summary", signature(object = "SpatialPredictions"), function(object){
    

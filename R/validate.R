@@ -1,9 +1,3 @@
-# Purpose        : validate a gstatModel;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : ; 
-# Dev Status     : Pre-Alpha
-# Note           : works only with linear models with normally distributed residuals;
-
 ## cross-validate a "gstatModel" object:
 setMethod("validate", signature(obj = "gstatModel"), function(obj, nfold = 5, predictionDomain = NULL, save.gstatModels = FALSE, ...){
    ## nfold has to be =>2

@@ -1,9 +1,3 @@
-# Purpose        : Converts a SoilProfileCollection to loose records (KML placemarks);
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : Hannes I. Reuter;
-# Status         : pre-alpha
-# Note           : see also "as.data.frame" operation;
-
 ## coerce SoilProfileCollection to "geosamples":
 setMethod("as.geosamples", signature(obj = "SoilProfileCollection"), 
   function(obj, registry = as.character(NA), sample.area = 1, mxd = 2, TimeSpan.begin, TimeSpan.end) 

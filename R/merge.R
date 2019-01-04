@@ -1,8 +1,4 @@
-# Purpose        : Combines a list of spatial pixels (multi-source data merging);
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : ; 
-# Dev Status     : Pre-Alpha
-# Note           : This is still a rather heuristic approach (a better option would be to use some more robust data assimilation method); weights can also be passed manually;
+# Note: This is still a rather heuristic approach (a better option would be to use some more robust data assimilation method); weights can also be passed manually;
 
 ## merge multiple spatial predictions:
 setMethod("merge", signature(x = "SpatialPredictions", y = "SpatialPredictions"), function(x, y, ..., RMSE.l = NULL, silent = TRUE){

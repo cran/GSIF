@@ -20,6 +20,7 @@
 \author{ Tomislav Hengl}
 \seealso{ \code{\link{fit.gstatModel}} }
 \examples{
+\dontrun{
 library(sp)
 library(gstat)
 library(ranger)
@@ -44,7 +45,6 @@ plot(raster(SNDMHT_A$predicted["SNDMHT_A"]), col=SAGA_pal[[1]])
 ## predict soil types:
 soiltype <- autopredict(eberg["soiltype"], eberg_grid, 
   auto.plot=FALSE)
-\dontrun{
 spplot(soiltype$predicted, col.regions=R_pal[[2]])
 ## most probable class:
 eberg_grid$soiltype <- as.factor(apply(soiltype$predicted@data, 1, which.max))
