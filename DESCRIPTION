@@ -1,7 +1,7 @@
 Package: GSIF
 Type: Package
 Title: Global Soil Information Facilities
-Version: 0.5-5
+Version: 0.5-5.1
 Date: 2019-01-04
 Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"), email = "tom.hengl@opengeohub.org"),
     person("Bas", "Kempen", role = "ctb", email = "bas.kempen@wur.nl"),
@@ -22,10 +22,10 @@ URL: http://gsif.r-forge.r-project.org/
 LazyLoad: yes
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2019-01-03 16:40:57 UTC; tomislav
+Packaged: 2020-03-22 09:25:12 UTC; hornik
 Author: Tomislav Hengl [cre, aut],
   Bas Kempen [ctb],
   Gerard Heuvelink [ctb],
   Brendan Malone [ctb]
 Repository: CRAN
-Date/Publication: 2019-01-04 13:50:27 UTC
+Date/Publication: 2020-03-22 09:46:05 UTC

@@ -13,7 +13,6 @@
 }
 \arguments{
   \item{obj}{object of class \code{"SoilProfileCollection"}}
-  \item{\dots}{optional arguments}
   \item{registry}{URI specifying the metadata registry (web-service that carries all metadata connected to the certain method ID and/or sample ID)}
   \item{sample.area}{standard sample area in square meters (assumed to be 1 by 1 m)}
   \item{mxd}{maximum depth of interest in meters}
