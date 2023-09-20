@@ -28,6 +28,7 @@ setMethod("getProcess", signature(x = "WPS"), function(x){
 })
 
 ## get arguments:
+setGeneric("describe", function(x, ...){standardGeneric("describe")})
 setMethod("describe", signature(x = "WPS"), function(x, request = "describeprocess", identifier){
   if(requireNamespace("XML", quietly = TRUE)){
     uri = paste(paste(x@server$URI, "?", sep=""), paste(x@server$service, x@server$version, paste("request=", request, sep=""), paste("identifier=", identifier, sep=""), sep="&"), sep="")
